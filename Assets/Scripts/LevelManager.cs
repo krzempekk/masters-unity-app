@@ -1,14 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit;
 
 public class LevelConfig {
     public int cubeNumber;
     public bool isChestLocked;
+    public bool distanceGrab;
 
-    public LevelConfig(int cubeNumber, bool isChestLocked) {
+    public LevelConfig(int cubeNumber, bool isChestLocked, bool distanceGrab) {
         this.cubeNumber = cubeNumber;
         this.isChestLocked = isChestLocked;
+        this.distanceGrab = distanceGrab;
     }
 }
 
@@ -20,9 +23,12 @@ public class LevelManager : MonoBehaviour {
     public BasicContainer[] containers;
     public ChestInteractable[] chests;
     public GameObject[] keys;
+    public XRRayInteractor[] rayInteractors;
     
     private LevelConfig config;
     private Dictionary<string, int> generatedItemsTagsCount = new Dictionary<string, int>();
+    public Gradient invalidGradient;
+    public Gradient transparentGradient;
 
 
     private void Awake() { 
@@ -82,6 +88,19 @@ public class LevelManager : MonoBehaviour {
         }
     }
 
+    private void ConfigureRayInteractors() {
+        foreach(XRRayInteractor interactor in rayInteractors) {
+            if(config.distanceGrab) {
+                interactor.raycastMask = ~0;
+                interactor.GetComponent<XRInteractorLineVisual>().invalidColorGradient = invalidGradient;
+            } else {
+                interactor.raycastMask = LayerMask.GetMask("UI");
+                interactor.GetComponent<XRInteractorLineVisual>().invalidColorGradient = transparentGradient;
+            }
+            Debug.Log(interactor.raycastMask);
+        }
+    }
+
     public void RestartLevel(LevelConfig newConfig) {
         if(newConfig != null) {
             config = newConfig;
@@ -90,5 +109,6 @@ public class LevelManager : MonoBehaviour {
         GenerateObjects();
         ConfigureContainers();
         ConfigureChests();
+        ConfigureRayInteractors();
     }
 }
