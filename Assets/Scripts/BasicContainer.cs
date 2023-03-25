@@ -6,8 +6,10 @@ public class BasicContainer : MonoBehaviour {
     public string itemCategoryTag = "";
     public InteractionLayerMask interactionLayerMask;
 
-    public UnityEvent OnCorrectPlacement;
+    public UnityEvent<int> OnCorrectPlacement;
     public UnityEvent OnIncorrectPlacement;
+    public UnityEvent<int> OnCorrectPlacementExit;
+    public UnityEvent OnIncorrectPlacementExit;
     public UnityEvent OnCompleted;
 
 
@@ -39,11 +41,11 @@ public class BasicContainer : MonoBehaviour {
         }
 
         if(other.CompareTag(itemCategoryTag)) {
-            OnCorrectPlacement.Invoke();
             correctItemsCount++;
+            OnCorrectPlacement.Invoke(totalCorrectItemsCount - correctItemsCount);
         } else {
-            OnIncorrectPlacement.Invoke();
             incorrectItemsCount++;
+            OnIncorrectPlacement.Invoke();
         } 
 
         CheckCompletedCondition();
@@ -56,8 +58,10 @@ public class BasicContainer : MonoBehaviour {
 
         if(other.CompareTag(itemCategoryTag)) {
             correctItemsCount--;
+            OnCorrectPlacementExit.Invoke(totalCorrectItemsCount - correctItemsCount);
         } else {
             incorrectItemsCount--;
+            OnIncorrectPlacementExit.Invoke();
         } 
 
         CheckCompletedCondition();

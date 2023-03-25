@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
+using TMPro;
 
 public class LevelConfig {
     public int cubeNumber;
@@ -17,7 +18,7 @@ public class LevelConfig {
 
 public class LevelManager : MonoBehaviour {
     public static LevelManager instance { get; private set; }
-    public GameObject spawnArea;
+    public GameObject spawnPointParent;
     public Transform spawnParent;
     public GameObject[] spawnObjects;
     public BasicContainer[] containers;
@@ -27,6 +28,9 @@ public class LevelManager : MonoBehaviour {
     
     private LevelConfig config;
     private Dictionary<string, int> generatedItemsTagsCount = new Dictionary<string, int>();
+    
+    public TextMeshProUGUI[] countLabels;
+    
     public Gradient invalidGradient;
     public Gradient transparentGradient;
 
@@ -46,7 +50,11 @@ public class LevelManager : MonoBehaviour {
 
         generatedItemsTagsCount.Clear();
 
-        Bounds bounds = spawnArea.GetComponent<MeshFilter>().mesh.bounds;
+        List<Transform> spawnPoints = new List<Transform>();
+
+        foreach(Transform point in spawnPointParent.transform) {
+            spawnPoints.Add(point);
+        }
 
         for(int i = 0; i < config.cubeNumber; i++) {
             int objectIndex = Random.Range(0, spawnObjects.Length);
@@ -60,22 +68,45 @@ public class LevelManager : MonoBehaviour {
                 generatedItemsTagsCount[objectToSpawn.tag] = 1;
             }
 
-            Vector3 positionOnArea = new Vector3(
-                Random.Range(bounds.min.x, bounds.max.x),
-                0,
-                Random.Range(bounds.min.z, bounds.max.z)
-            );
-
-            Vector3 position = spawnArea.GetComponent<Transform>().TransformPoint(positionOnArea);
         
-            Instantiate(objectToSpawn, position, Quaternion.Euler(0, 0, 0), spawnParent);
+            int spawnPointIndex = Random.Range(0, spawnPoints.Count);
+            Vector3 position = spawnPoints[spawnPointIndex].position;
+            spawnPoints.RemoveAt(spawnPointIndex);
+        
+            Instantiate(objectToSpawn, position, Quaternion.Euler(0, Random.Range(0, 360), 0), spawnParent);
         }
+    }
+
+    private TextMeshProUGUI GetLabelWithTag(string tag) {
+        foreach(TextMeshProUGUI label in countLabels) {
+            if(label.tag == tag) {
+                return label;
+            }
+        }
+
+        return null;
     }
 
     private void ConfigureContainers() {
         foreach(BasicContainer container in containers) {
-            container.ResetContainer(generatedItemsTagsCount[container.itemCategoryTag]);
+            string tag = container.itemCategoryTag;
+            TextMeshProUGUI label = GetLabelWithTag(tag);
+            int itemCount = generatedItemsTagsCount[tag];
+
+            container.ResetContainer(itemCount);
+            container.OnCorrectPlacement.AddListener((count) => {
+                UpdateLabel(tag, count);
+            });
+            container.OnCorrectPlacementExit.AddListener((count) => {
+                UpdateLabel(tag, count);
+            });
+            UpdateLabel(tag, itemCount);
         }
+    }
+
+    private void UpdateLabel(string tag, int count) {
+        TextMeshProUGUI label = GetLabelWithTag(tag);
+        label.text = "" + count;
     }
 
     private void ConfigureChests() {

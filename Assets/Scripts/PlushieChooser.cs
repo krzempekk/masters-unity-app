@@ -10,10 +10,6 @@ public class PlushieChooser: MonoBehaviour {
         SwitchPlushie(Random.Range(0, meshes.Length));
     }
 
-    void Update() {
-        
-    }
-
     void SwitchPlushie(int index) {
         GetComponent<MeshFilter>().mesh = meshes[index];
         GetComponent<MeshRenderer>().material = materials[index];
