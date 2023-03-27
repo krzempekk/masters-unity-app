@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 public class GameMenuManager: MonoBehaviour {
     public Transform head;
-    public float spawnDistance = 2;
+    public float spawnDistance = 1;
     public GameObject menu;
     public InputActionProperty showButton;
     

@@ -4,15 +4,21 @@ using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 using TMPro;
 
-public class LevelConfig {
+public class Level1Settings : BaseSettings {
     public int cubeNumber;
     public bool isChestLocked;
-    public bool distanceGrab;
 
-    public LevelConfig(int cubeNumber, bool isChestLocked, bool distanceGrab) {
-        this.cubeNumber = cubeNumber;
-        this.isChestLocked = isChestLocked;
-        this.distanceGrab = distanceGrab;
+    public Level1Settings(string _preset): base(_preset) {
+    }
+
+    override public void GetSettingsFromPrefs() {
+        cubeNumber = PlayerPrefs.GetInt($"{preset}:l1:cubeNumber", 5);
+        isChestLocked = GetBooleanFromPrefs("isChestLocked");
+    }
+
+    override public void SetSettingsToPrefs() {
+        PlayerPrefs.SetInt($"{preset}:l1:cubeNumber", cubeNumber);
+        SetBooleanToPrefs("isChestLocked", isChestLocked);
     }
 }
 
@@ -22,22 +28,20 @@ public class LevelManager : MonoBehaviour {
     public Transform spawnParent;
     public GameObject[] spawnObjects;
 
-    public BasicContainer[] containers;
     public ChestInteractable[] chests;
     public GameObject[] keys;
-
-    public XRRayInteractor[] rayInteractors;
-    public Gradient invalidGradient;
-    public Gradient transparentGradient;
 
     public TextMeshProUGUI[] countLabels;
     public Canvas progressCanvas;
     public Canvas winCanvas;
+    public FadeScreen fadeScreen;
+
+    public GameObject XROrigin;
     
-    private LevelConfig config;
+    private Level1Settings settings;
     private Dictionary<string, int> generatedItemsTagsCount = new Dictionary<string, int>();
     private int completedContainers = 0;
-
+    private Vector3 initialOriginPos;
 
 
     private void Awake() { 
@@ -45,6 +49,8 @@ public class LevelManager : MonoBehaviour {
             Destroy(this); 
         } else { 
             instance = this; 
+            initialOriginPos = XROrigin.transform.position;
+            StartLevel();
         } 
     }
 
@@ -61,7 +67,7 @@ public class LevelManager : MonoBehaviour {
             spawnPoints.Add(point);
         }
 
-        for(int i = 0; i < config.cubeNumber; i++) {
+        for(int i = 0; i < settings.cubeNumber; i++) {
             int objectIndex = Random.Range(0, spawnObjects.Length);
 
             GameObject objectToSpawn = spawnObjects[objectIndex];
@@ -92,74 +98,70 @@ public class LevelManager : MonoBehaviour {
         return null;
     }
 
-    private void ConfigureContainers() {
-        foreach(BasicContainer container in containers) {
-            string tag = container.itemCategoryTag;
-            TextMeshProUGUI label = GetLabelWithTag(tag);
-            int itemCount = generatedItemsTagsCount[tag];
-
-            container.ResetContainer(itemCount);
-            container.OnCorrectPlacement.AddListener((count) => {
-                UpdateLabel(tag, count);
-            });
-            container.OnCorrectPlacementExit.AddListener((count) => {
-                UpdateLabel(tag, count);
-            });
-            container.OnCompleted.AddListener(() => {
-                completedContainers++;
-                CheckCompletedCondition();
-            });
-            container.OnCompletedExit.AddListener(() => completedContainers--);
-
-            UpdateLabel(tag, itemCount);
-        }
-    }
-
     private void UpdateLabel(string tag, int count) {
         TextMeshProUGUI label = GetLabelWithTag(tag);
         label.text = "" + count;
     }
 
     private void CheckCompletedCondition() {
-        if(completedContainers == containers.Length) {
+        if(completedContainers == chests.Length) {
             GetComponent<AudioSource>().Play();
             progressCanvas.gameObject.SetActive(false);
             winCanvas.gameObject.SetActive(true);
         }
     }
 
+    private void ConfigureContainer(BasicContainer container) {
+        string tag = container.itemCategoryTag;
+        TextMeshProUGUI label = GetLabelWithTag(tag);
+        int itemCount = generatedItemsTagsCount[tag];
+
+        container.ResetContainer(itemCount);
+        container.OnCorrectPlacement.AddListener((count) => {
+            UpdateLabel(tag, count);
+        });
+        container.OnCorrectPlacementExit.AddListener((count) => {
+            UpdateLabel(tag, count);
+        });
+        container.OnCompleted.AddListener(() => {
+            completedContainers++;
+            CheckCompletedCondition();
+        });
+        container.OnCompletedExit.AddListener(() => completedContainers--);
+
+        UpdateLabel(tag, itemCount);
+    }
+
     private void ConfigureChests() {
         foreach(ChestInteractable chest in chests) {
-            chest.ResetChest(config.isChestLocked);
+            chest.ResetChest(settings.isChestLocked);
+
+            BasicContainer container = chest.GetComponentInChildren<BasicContainer>();
+            ConfigureContainer(container);
         }
 
         foreach(GameObject key in keys) {
-            key.SetActive(config.isChestLocked);
+            key.SetActive(settings.isChestLocked);
         }
     }
 
-    private void ConfigureRayInteractors() {
-        foreach(XRRayInteractor interactor in rayInteractors) {
-            if(config.distanceGrab) {
-                interactor.raycastMask = ~0;
-                interactor.GetComponent<XRInteractorLineVisual>().invalidColorGradient = invalidGradient;
-            } else {
-                interactor.raycastMask = LayerMask.GetMask("UI");
-                interactor.GetComponent<XRInteractorLineVisual>().invalidColorGradient = transparentGradient;
-            }
-            Debug.Log(interactor.raycastMask);
-        }
+    public void RestartLevel() {
+        StartCoroutine(RestartLevelRoutine());
     }
 
-    public void RestartLevel(LevelConfig newConfig) {
-        if(newConfig != null) {
-            config = newConfig;
-        }
+    private IEnumerator RestartLevelRoutine() {
+        fadeScreen.FadeOutAndIn();
+        yield return new WaitForSeconds(fadeScreen.fadeDuration);
+
+        XROrigin.transform.position = initialOriginPos;
+        StartLevel();
+    }
+
+    private void StartLevel() {
+        settings = (Level1Settings) SettingsManager.GetLevelSettings(0);
 
         GenerateObjects();
-        ConfigureContainers();
         ConfigureChests();
-        ConfigureRayInteractors();
 
         completedContainers = 0;
         progressCanvas.gameObject.SetActive(true);
