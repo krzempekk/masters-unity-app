@@ -7,15 +7,19 @@ public class BasicContainer : MonoBehaviour {
     public InteractionLayerMask interactionLayerMask;
 
     public UnityEvent<int> OnCorrectPlacement;
-    public UnityEvent OnIncorrectPlacement;
     public UnityEvent<int> OnCorrectPlacementExit;
+
+    public UnityEvent OnIncorrectPlacement;
     public UnityEvent OnIncorrectPlacementExit;
+
     public UnityEvent OnCompleted;
+    public UnityEvent OnCompletedExit;
 
 
     private int correctItemsCount = 0;
     private int incorrectItemsCount = 0;
     private int totalCorrectItemsCount = 0;
+    private bool isCompleted = false;
 
     public void ResetContainer(int totalCount) {
         correctItemsCount = 0;
@@ -31,7 +35,11 @@ public class BasicContainer : MonoBehaviour {
 
     private void CheckCompletedCondition() {
         if(correctItemsCount == totalCorrectItemsCount && incorrectItemsCount == 0) {
+            isCompleted = true;
             OnCompleted.Invoke();
+        } else if(isCompleted == true) {
+            isCompleted = false;
+            OnCompletedExit.Invoke();
         }
     }
 

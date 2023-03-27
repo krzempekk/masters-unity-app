@@ -21,18 +21,23 @@ public class LevelManager : MonoBehaviour {
     public GameObject spawnPointParent;
     public Transform spawnParent;
     public GameObject[] spawnObjects;
+
     public BasicContainer[] containers;
     public ChestInteractable[] chests;
     public GameObject[] keys;
+
     public XRRayInteractor[] rayInteractors;
+    public Gradient invalidGradient;
+    public Gradient transparentGradient;
+
+    public TextMeshProUGUI[] countLabels;
+    public Canvas progressCanvas;
+    public Canvas winCanvas;
     
     private LevelConfig config;
     private Dictionary<string, int> generatedItemsTagsCount = new Dictionary<string, int>();
-    
-    public TextMeshProUGUI[] countLabels;
-    
-    public Gradient invalidGradient;
-    public Gradient transparentGradient;
+    private int completedContainers = 0;
+
 
 
     private void Awake() { 
@@ -100,6 +105,12 @@ public class LevelManager : MonoBehaviour {
             container.OnCorrectPlacementExit.AddListener((count) => {
                 UpdateLabel(tag, count);
             });
+            container.OnCompleted.AddListener(() => {
+                completedContainers++;
+                CheckCompletedCondition();
+            });
+            container.OnCompletedExit.AddListener(() => completedContainers--);
+
             UpdateLabel(tag, itemCount);
         }
     }
@@ -107,6 +118,14 @@ public class LevelManager : MonoBehaviour {
     private void UpdateLabel(string tag, int count) {
         TextMeshProUGUI label = GetLabelWithTag(tag);
         label.text = "" + count;
+    }
+
+    private void CheckCompletedCondition() {
+        if(completedContainers == containers.Length) {
+            GetComponent<AudioSource>().Play();
+            progressCanvas.gameObject.SetActive(false);
+            winCanvas.gameObject.SetActive(true);
+        }
     }
 
     private void ConfigureChests() {
@@ -141,5 +160,9 @@ public class LevelManager : MonoBehaviour {
         ConfigureContainers();
         ConfigureChests();
         ConfigureRayInteractors();
+
+        completedContainers = 0;
+        progressCanvas.gameObject.SetActive(true);
+        winCanvas.gameObject.SetActive(false);
     }
 }
