@@ -7,6 +7,7 @@ public class Level1Canvas : MonoBehaviour {
     public GameObject itemNumberSlider;
     public Toggle lockedChestsToggle;
     public Toggle extraItemsToggle;
+    public Toggle disableTutorialToggle;
 
     private Level1Settings level1Settings;
 
@@ -17,11 +18,20 @@ public class Level1Canvas : MonoBehaviour {
         slider.onValueChanged.AddListener(OnSliderChanged);
         slider.value = level1Settings.cubeNumber;
 
-        lockedChestsToggle.onValueChanged.AddListener(OnChestCheckboxValueChanged);
+        lockedChestsToggle.onValueChanged.AddListener((bool chestsLocked) => {
+            level1Settings.isChestLocked = chestsLocked;
+        });
         lockedChestsToggle.isOn = level1Settings.isChestLocked;
 
-        extraItemsToggle.onValueChanged.AddListener(OnExtraItemsCheckboxValueChanged);
+        extraItemsToggle.onValueChanged.AddListener((bool extraItems) => {
+            level1Settings.extraItems = extraItems;
+        });
         extraItemsToggle.isOn = level1Settings.extraItems;
+
+        disableTutorialToggle.onValueChanged.AddListener((bool disableTutorial) => {
+            level1Settings.disableTutorial = disableTutorial;
+        });
+        disableTutorialToggle.isOn = level1Settings.disableTutorial;
     }
 
     public void OnSliderChanged(System.Single value) {
@@ -29,13 +39,4 @@ public class Level1Canvas : MonoBehaviour {
         itemNumberSlider.GetComponentInChildren<TextMeshProUGUI>().text = "" + cubeNumber;
         level1Settings.cubeNumber = cubeNumber;
     }
-
-    public void OnChestCheckboxValueChanged(bool chestsLocked) {
-        level1Settings.isChestLocked = chestsLocked;
-    }
-
-    public void OnExtraItemsCheckboxValueChanged(bool extraItems) {
-        level1Settings.extraItems = extraItems;
-    }
-
 }
