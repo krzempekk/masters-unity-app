@@ -13,6 +13,10 @@ public class ChestInteractable: XRBaseInteractable {
 
     public bool isLocked = true;
     public XRSocketInteractor keyHole;
+    public BasicContainer container;
+    public GameObject key;
+    public ItemCategory itemCategory;
+    public MeshRenderer sticker;
 
     private IXRSelectInteractor interactor = null;
     private Plane surfacePlane;
@@ -62,7 +66,7 @@ public class ChestInteractable: XRBaseInteractable {
     }
 
     void Update() {
-        if(interactor != null && (!isLocked || currentAngle - minAngle > 5)) {
+        if(interactor != null && (!isLocked || currentAngle - minAngle > 3)) {
             UpdateRotation();
         }
 

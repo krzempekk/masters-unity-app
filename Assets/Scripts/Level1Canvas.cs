@@ -1,12 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 using TMPro;
 
-public class PreLevel1CanvasController: MonoBehaviour {
+public class Level1Canvas : MonoBehaviour {
     public GameObject itemNumberSlider;
     public Toggle lockedChestsToggle;
+    public Toggle extraItemsToggle;
 
     private Level1Settings level1Settings;
 
@@ -19,6 +19,9 @@ public class PreLevel1CanvasController: MonoBehaviour {
 
         lockedChestsToggle.onValueChanged.AddListener(OnChestCheckboxValueChanged);
         lockedChestsToggle.isOn = level1Settings.isChestLocked;
+
+        extraItemsToggle.onValueChanged.AddListener(OnExtraItemsCheckboxValueChanged);
+        extraItemsToggle.isOn = level1Settings.extraItems;
     }
 
     public void OnSliderChanged(System.Single value) {
@@ -30,4 +33,9 @@ public class PreLevel1CanvasController: MonoBehaviour {
     public void OnChestCheckboxValueChanged(bool chestsLocked) {
         level1Settings.isChestLocked = chestsLocked;
     }
+
+    public void OnExtraItemsCheckboxValueChanged(bool extraItems) {
+        level1Settings.extraItems = extraItems;
+    }
+
 }

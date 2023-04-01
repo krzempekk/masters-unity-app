@@ -7,6 +7,7 @@ TagManager:
   - ItemCategory1
   - ItemCategory2
   - RayInteractor
+  - ItemCategory3
   layers:
   - Default
   - TransparentFX

@@ -25,6 +25,13 @@ public class BasicContainer : MonoBehaviour {
         correctItemsCount = 0;
         incorrectItemsCount = 0;
         totalCorrectItemsCount = totalCount;
+
+        OnCorrectPlacement.RemoveAllListeners();
+        OnCorrectPlacementExit.RemoveAllListeners();
+        OnIncorrectPlacement.RemoveAllListeners();
+        OnIncorrectPlacementExit.RemoveAllListeners();
+        OnCompleted.RemoveAllListeners();
+        OnCompletedExit.RemoveAllListeners();
     }
 
     private bool CompareInteractionLayer(Collider other) {
