@@ -38,12 +38,14 @@ public class Level1Manager : MonoBehaviour {
     public GameObject[] progressIndicators;
 
     public Canvas progressCanvas;
-    public Canvas winCanvas;
+    public WinCanvasController winCanvas;
     public FadeScreen fadeScreen;
 
     public GameObject XROrigin;
     public ItemCategory[] itemCategories;
+
     public Level1Tutorial tutorial;
+    public Level1Stats stats;
 
     private List<ItemCategory> activeCategories = new List<ItemCategory>();
     private Level1Settings settings;
@@ -126,9 +128,7 @@ public class Level1Manager : MonoBehaviour {
 
     private void CheckCompletedCondition() {
         if(completedContainers == chests.Length) {
-            GetComponent<AudioSource>().Play();
-            progressCanvas.gameObject.SetActive(false);
-            winCanvas.gameObject.SetActive(true);
+            EndLevel();
         }
     }
 
@@ -188,5 +188,17 @@ public class Level1Manager : MonoBehaviour {
         if(!settings.disableTutorial) {
             tutorial.PlayTutorial();
         }
+
+        stats.StartLevel();
+    }
+
+    private void EndLevel() {
+        stats.EndLevel();
+
+        GetComponent<AudioSource>().Play();
+
+        progressCanvas.gameObject.SetActive(false);
+        winCanvas.gameObject.SetActive(true);
+        winCanvas.ShowResults();
     }
 }

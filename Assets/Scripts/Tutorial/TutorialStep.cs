@@ -11,7 +11,7 @@ public class TutorialStep : MonoBehaviour {
         return true;
     }
 
-    public IEnumerator Execute() {
+    virtual public IEnumerator Execute() {
         audioSource.PlayOneShot(audioClip);
         yield return new WaitForSeconds(audioClip.length); 
     }

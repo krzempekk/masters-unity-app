@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.XR.Interaction.Toolkit;
@@ -15,16 +17,27 @@ public class BasicContainer : MonoBehaviour {
     public UnityEvent OnCompleted;
     public UnityEvent OnCompletedExit;
 
+    public UnityEvent OnUniqueCorrectPlacement;
+    public UnityEvent OnUniqueIncorrectPlacement;
+
 
     private int correctItemsCount = 0;
     private int incorrectItemsCount = 0;
     private int totalCorrectItemsCount = 0;
     private bool isCompleted = false;
 
+    private List<Collider> previousCorrectColliders = new List<Collider>();
+    private List<Collider> previousIncorrectColliders = new List<Collider>();
+
     public void ResetContainer(int totalCount) {
         correctItemsCount = 0;
         incorrectItemsCount = 0;
         totalCorrectItemsCount = totalCount;
+
+        isCompleted = false;
+
+        previousCorrectColliders.Clear();
+        previousIncorrectColliders.Clear();
 
         OnCorrectPlacement.RemoveAllListeners();
         OnCorrectPlacementExit.RemoveAllListeners();
@@ -58,9 +71,19 @@ public class BasicContainer : MonoBehaviour {
         if(other.CompareTag(itemCategoryTag)) {
             correctItemsCount++;
             OnCorrectPlacement.Invoke(totalCorrectItemsCount - correctItemsCount);
+
+            if(!previousCorrectColliders.Contains(other)) {
+                previousCorrectColliders.Add(other);
+                OnUniqueCorrectPlacement.Invoke();
+            }
         } else {
             incorrectItemsCount++;
             OnIncorrectPlacement.Invoke();
+
+            if(!previousIncorrectColliders.Contains(other)) {
+                previousIncorrectColliders.Add(other);
+                OnUniqueIncorrectPlacement.Invoke();
+            }
         } 
 
         CheckCompletedCondition();
