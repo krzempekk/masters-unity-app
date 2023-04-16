@@ -1,8 +1,8 @@
 1. Cześć! Twoim zadaniem jest umieszczenie zabawek w odpowiednich skrzyniach. 
-2. Każda skrzynia ma przyklejony obrazek z rodzajem zabawki który należy w niej umieścić <podświetlić skrzynię i strzałka na obrazek>
+2. Każda skrzynia ma przyklejony obrazek z rodzajem zabawki który należy w niej umieścić.
 2a. Zanim zaczniesz umieszcać zabawki w skrzyniach, musisz odnaleźć klucze i otworzyć za ich pomocą skrzynie.
-3. Jeśli umieścisz zabawkę w odpowiedniej skrzyni, zaświeci się ona na zielono i usłyszysz dźwięk <ręka przenosi misia do skrzyni z misiem>
-4. Jeśli umieścisz zabawkę w nieodpowiedniej skrzyni, zaświeci się ona na czerwono i usłyszysz dźwięk <ręka przenosi auto do skrzyni z misiem>
-4a. Uważaj! Niektóre zabawki znajdujące się w pokoju nie pasują do żadnej skrzyni.
-5. Na tablicy znajdują się informacje o tym, ile jeszcze zabawek każdego rodzaju należy umieścić w odpowiednich skrzyniach <podświetlić tablicę>
+3. Jeśli umieścisz zabawkę w odpowiedniej skrzyni, zaświeci się ona na zielono i usłyszysz dźwięk.
+4. Jeśli umieścisz zabawkę w nieodpowiedniej skrzyni, zaświeci się ona na czerwono i usłyszysz dźwięk.
+4a. Uważaj! Niektóre zabawki nie pasują do żadnej skrzyni.
+5. Tablica pokazuje, ile jeszcze zabawek należy umieścić w skrzyniach.
 6. Znajdź wszystkie zabawki w pokoju. Powodzenia!

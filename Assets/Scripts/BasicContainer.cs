@@ -77,7 +77,10 @@ public class BasicContainer : MonoBehaviour {
                 OnUniqueCorrectPlacement.Invoke();
             }
         } else {
-            incorrectItemsCount++;
+            // incorrectItemsCount++;
+
+            other.GetComponent<ItemReturn>().ReturnToInitialPosition();
+
             OnIncorrectPlacement.Invoke();
 
             if(!previousIncorrectColliders.Contains(other)) {
@@ -98,7 +101,7 @@ public class BasicContainer : MonoBehaviour {
             correctItemsCount--;
             OnCorrectPlacementExit.Invoke(totalCorrectItemsCount - correctItemsCount);
         } else {
-            incorrectItemsCount--;
+            // incorrectItemsCount--;
             OnIncorrectPlacementExit.Invoke();
         } 
 

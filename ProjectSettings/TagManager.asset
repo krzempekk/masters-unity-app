@@ -8,6 +8,7 @@ TagManager:
   - ItemCategory2
   - RayInteractor
   - ItemCategory3
+  - XROrigin
   layers:
   - Default
   - TransparentFX

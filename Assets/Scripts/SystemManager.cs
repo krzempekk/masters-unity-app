@@ -33,6 +33,12 @@ public class SystemManager: MonoBehaviour, SettingsListener {
                 interactor.GetComponent<XRInteractorLineVisual>().invalidColorGradient = transparentGradient;
             }
         }
+
+        // CharacterController characterController = GameObject
+        //     .FindGameObjectWithTag("XROrigin")
+        //     .GetComponent<CharacterController>();
+
+        // characterController.height = settings.height;
     }
 
     void Start() {

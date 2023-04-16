@@ -27,13 +27,16 @@ public class MainSettings: BaseSettings {
     }
 
     public bool distanceGrab;
+    public float height;
 
     override public void GetSettingsFromPrefs() {
         distanceGrab = GetBooleanFromPrefs("distanceGrab");
+        height = PlayerPrefs.GetFloat($"{preset}:height", 2.0f);
     }
 
     override public void SetSettingsToPrefs() {
         SetBooleanToPrefs("distanceGrab", distanceGrab);
+        PlayerPrefs.SetFloat($"{preset}:height", height);
     }
 }
 
