@@ -3,19 +3,52 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 
-public class DishWasherInteractable : XRBaseInteractable {
-    public Transform dishwasherDoors;
+public enum NormalType {
+    RED,
+    RED_NEGATIVE,
+    GREEN,
+    GREEN_NEGATIVE,
+    BLUE,
+    BLUE_NEGATIVE
+};
+
+public class DoorInteractable : XRBaseInteractable {
+    public Transform doors;
     public float minAngle = 0;
     public float currentAngle = 0;
     public float maxAngle = 90;
+
+    public NormalType surfaceNormal = NormalType.BLUE;
+    public NormalType wallNormal = NormalType.RED;
+
+    public Vector3 angleVector = new Vector3(0, -1, 0);
 
     private IXRSelectInteractor interactor = null;
     private Plane surfacePlane;
     private Plane wallPlane;
 
+    private Vector3 GetNormal(Transform transform, NormalType normalType) {
+        switch(normalType) {
+            case NormalType.RED:
+                return transform.right;
+            case NormalType.RED_NEGATIVE:
+                return -transform.right;
+            case NormalType.GREEN:
+                return transform.up;
+            case NormalType.GREEN_NEGATIVE:
+                return -transform.up;
+            case NormalType.BLUE:
+                return transform.forward;
+            case NormalType.BLUE_NEGATIVE:
+                return -transform.forward;
+            default:
+                return Vector3.zero;
+        }
+    }
+
     void Start() {
-        surfacePlane = new Plane(dishwasherDoors.forward, dishwasherDoors.position);
-        wallPlane = new Plane(dishwasherDoors.up, dishwasherDoors.position);
+        surfacePlane = new Plane(GetNormal(doors, surfaceNormal), doors.position);
+        wallPlane = new Plane(GetNormal(doors, wallNormal), doors.position);
     }
 
     void UpdateRotation() {
@@ -38,7 +71,7 @@ public class DishWasherInteractable : XRBaseInteractable {
     }
 
     void ApplyRotation() {
-        dishwasherDoors.localEulerAngles = new Vector3(currentAngle, 0, 0);
+        doors.localEulerAngles = currentAngle * angleVector;
     }
 
     void Update() {
