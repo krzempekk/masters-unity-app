@@ -64,6 +64,7 @@ public class SettingsManager: MonoBehaviour {
     private void InitializeSettings() {
         mainSettings = new MainSettings(preset);
         levelSettings.Add(new Level1Settings(preset));
+        levelSettings.Add(new Level2Settings(preset));
 
         LoadSettings();
     }

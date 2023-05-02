@@ -9,6 +9,9 @@ TagManager:
   - RayInteractor
   - ItemCategory3
   - XROrigin
+  - Fork
+  - SpoonLittle
+  - SpoonBig
   layers:
   - Default
   - TransparentFX

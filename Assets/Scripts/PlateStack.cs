@@ -41,24 +41,6 @@ public class PlateStack: MonoBehaviour {
             Transform interactable = sockets[currentHeight - 2].firstInteractableSelected.transform;
             interactable.GetComponent<XRGrabInteractable>().interactionLayers = InteractionLayerMask.GetMask("Socket");
         }
-
-        // Debug.Log("Append " + sockets.Count);
-        // XRSocketInteractor lastSocket = sockets[sockets.Count - 1];
-
-        // lastSocket.selectEntered.RemoveListener(AppendSocket);
-        // lastSocket.selectExited.AddListener(RemoveSocket);
-        // lastSocket.allowHover = false;
-
-        // if(sockets.Count > 1) {
-        //     XRSocketInteractor previousSocket = sockets[sockets.Count - 2];
-        //     previousSocket.selectExited.RemoveListener(RemoveSocket);
-        //     XRGrabInteractable previousTopPlate = previousSocket.firstInteractableSelected.transform.GetComponent<XRGrabInteractable>();
-        //     previousTopPlate.interactionLayers = InteractionLayerMask.GetMask("Socket");
-        // }
-        
-        // newSocket.selectEntered.AddListener(AppendSocket);
-
-        // sockets.Add(newSocket);
     }
 
     public void DecreaseHeight(SelectExitEventArgs args) {
@@ -69,23 +51,6 @@ public class PlateStack: MonoBehaviour {
             Transform interactable = sockets[currentHeight - 1].firstInteractableSelected.transform;
             interactable.GetComponent<XRGrabInteractable>().interactionLayers = InteractionLayerMask.GetMask("Socket", "Direct");
         }
-
-        // Debug.Log("Remove " + sockets.Count);
-        // XRSocketInteractor lastSocket = sockets[sockets.Count - 1];
-        // lastSocket.selectEntered.RemoveListener(AppendSocket);
-        // sockets.Remove(lastSocket);
-        // Destroy(lastSocket.gameObject);
-
-        // lastSocket = sockets[sockets.Count - 1];
-        // lastSocket.selectEntered.AddListener(AppendSocket);
-        // lastSocket.allowHover = true;
-
-        // if(sockets.Count > 1) {
-        //     XRSocketInteractor previousSocket = sockets[sockets.Count - 2];
-        //     previousSocket.selectExited.AddListener(RemoveSocket);
-        //     XRGrabInteractable previousTopPlate = previousSocket.firstInteractableSelected.transform.GetComponent<XRGrabInteractable>();
-        //     previousTopPlate.interactionLayers = InteractionLayerMask.GetMask("Socket", "Direct");
-        // }
     }
 
     void Update() {

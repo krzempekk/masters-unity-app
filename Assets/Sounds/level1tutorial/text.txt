@@ -6,3 +6,10 @@
 4a. Uważaj! Niektóre zabawki nie pasują do żadnej skrzyni.
 5. Tablica pokazuje, ile jeszcze zabawek należy umieścić w skrzyniach.
 6. Znajdź wszystkie zabawki w pokoju. Powodzenia!
+
+1. Cześć! Twoim zadaniem jest umieszczenie zabawek w odpowiednich skrzyniach.
+2. Na każdej skrzyni jest obrazek z rodzajem zabawki.
+2a. Najpierw musisz otworzyć skrzynie za pomocą klucza.
+2b. Niektóre zabawki nie pasują do żadnej skrzyni.
+4. Tablica pokazuje ile zabawek należy jeszcze umieścić w skrzyniach. 
+5. Powodzenia!
