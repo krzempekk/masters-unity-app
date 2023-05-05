@@ -2,13 +2,19 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+
 using UnityEngine.XR.Interaction.Toolkit;
 
 public class PlateStack: MonoBehaviour {
 
     public XRSocketInteractor firstSocket;
     public int maxHeight = 10;
+    public int targetHeight = -1;
     public int currentHeight = 0;
+    public UnityEvent OnCompleted;
+    public UnityEvent OnCompletedExit;
+
     private List<XRSocketInteractor> sockets = new List<XRSocketInteractor>();
 
     void Start() {
@@ -41,9 +47,17 @@ public class PlateStack: MonoBehaviour {
             Transform interactable = sockets[currentHeight - 2].firstInteractableSelected.transform;
             interactable.GetComponent<XRGrabInteractable>().interactionLayers = InteractionLayerMask.GetMask("Socket");
         }
+
+        if(targetHeight > 0 && currentHeight == targetHeight) {
+            OnCompleted.Invoke();
+        }
     }
 
     public void DecreaseHeight(SelectExitEventArgs args) {
+        if(targetHeight > 0 && currentHeight == targetHeight) {
+            OnCompletedExit.Invoke();
+        }
+
         sockets[currentHeight].socketActive = false;
         currentHeight--;
 
@@ -51,6 +65,13 @@ public class PlateStack: MonoBehaviour {
             Transform interactable = sockets[currentHeight - 1].firstInteractableSelected.transform;
             interactable.GetComponent<XRGrabInteractable>().interactionLayers = InteractionLayerMask.GetMask("Socket", "Direct");
         }
+    }
+
+    public void Reset() {
+        targetHeight = -1;
+        currentHeight = 0;
+        OnCompleted.RemoveAllListeners();
+        OnCompletedExit.RemoveAllListeners();
     }
 
     void Update() {

@@ -18,6 +18,10 @@ public class SocketGrid: MonoBehaviour {
         for(int r = 0; r < redCount; r++) {
             for(int b = 0; b < blueCount; b++) {
                 for(int g = 0; g < greenCount; g++) {
+                    if(r == 0 && b == 0 && g == 0) {
+                        continue;
+                    }
+
                     Vector3 position = firstSocket.transform.position 
                         + r * redOffset * firstSocket.transform.right
                         + b * blueOffset * firstSocket.transform.forward

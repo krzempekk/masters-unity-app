@@ -268,4 +268,9 @@ MonoBehaviour:
   - {fileID: -3994784694673215225, guid: 3b77adeee66129f45b39632e0b181b17, type: 3}
   - {fileID: 8967709610765535269, guid: 2d3160c770ac23e448cc5f77c152e9f3, type: 3}
   - {fileID: 8762963273044192648, guid: 18012e9eddac4e54390b68dcb013487f, type: 3}
+  tags:
+  - BluePlate
+  - RedPlate
+  - GreenPlate
+  - BrownPlate
   colorIndex: 0

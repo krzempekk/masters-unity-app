@@ -12,6 +12,12 @@ TagManager:
   - Fork
   - SpoonLittle
   - SpoonBig
+  - GreenPlate
+  - BrownPlate
+  - BluePlate
+  - RedPlate
+  - RedCup
+  - BlueCup
   layers:
   - Default
   - TransparentFX

@@ -13,3 +13,9 @@
 2b. Niektóre zabawki nie pasują do żadnej skrzyni.
 4. Tablica pokazuje ile zabawek należy jeszcze umieścić w skrzyniach. 
 5. Powodzenia!
+
+1. Cześć! Włóż zabawki do odpowiednich skrzyń.
+2. Popatrz na obrazki na skrzyniach.
+2a. (jeśli skrzynie zamknięte) Otwórz skrzynię kluczem.
+3. Włóż do skrzyń tyle zabawek ile widzisz na tablicy.
+4. Powodzenia!
