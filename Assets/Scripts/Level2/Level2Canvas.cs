@@ -6,6 +6,7 @@ using TMPro;
 public class Level2Canvas : MonoBehaviour {
     public GameObject platesNumberSlider;
     public GameObject cupsNumberSlider;
+    public GameObject cutleryNumberSlider;
 
     private Level2Settings level2Settings;
 
@@ -19,6 +20,10 @@ public class Level2Canvas : MonoBehaviour {
         Slider cupsSlider = cupsNumberSlider.GetComponentInChildren<Slider>();
         cupsSlider.onValueChanged.AddListener(OnCupsSliderChanged);
         cupsSlider.value = level2Settings.cupsNumber;
+
+        Slider cutlerySlider = cutleryNumberSlider.GetComponentInChildren<Slider>();
+        cutlerySlider.onValueChanged.AddListener(OnCutlerySliderChanged);
+        cutlerySlider.value = level2Settings.cutleryNumber;
     }
 
     public void OnPlatesSliderChanged(System.Single value) {
@@ -33,4 +38,9 @@ public class Level2Canvas : MonoBehaviour {
         level2Settings.cupsNumber = cupsNumber;
     }
 
+    public void OnCutlerySliderChanged(System.Single value) {
+        int cutleryNumber = (int) value;
+        cutleryNumberSlider.GetComponentInChildren<TextMeshProUGUI>().text = "" + cutleryNumber;
+        level2Settings.cutleryNumber = cutleryNumber;
+    }
 }

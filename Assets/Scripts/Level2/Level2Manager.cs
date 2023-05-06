@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
+using TMPro;
 
 public class Level2Settings : BaseSettings {
     public int platesNumber;
     public int cupsNumber;
+    public int cutleryNumber;
 
     public Level2Settings(string _preset): base(_preset) {
     }
@@ -13,11 +15,13 @@ public class Level2Settings : BaseSettings {
     override public void GetSettingsFromPrefs() {
         platesNumber = PlayerPrefs.GetInt($"{preset}:l2:platesNumber", 5);
         cupsNumber = PlayerPrefs.GetInt($"{preset}:l2:cupsNumber", 5);
+        cutleryNumber = PlayerPrefs.GetInt($"{preset}:l2:cutleryNumber", 5);
     }
 
     override public void SetSettingsToPrefs() {
         PlayerPrefs.SetInt($"{preset}:l2:platesNumber", platesNumber);
         PlayerPrefs.SetInt($"{preset}:l2:cupsNumber", cupsNumber);
+        PlayerPrefs.SetInt($"{preset}:l2:cutleryNumber", cutleryNumber);
     }
 }
 
@@ -33,14 +37,25 @@ public class Level2Manager : MonoBehaviour {
     public PlateStack[] plateStacks;
     public Mesh[] plateMeshes;
     public string[] plateTags;
+    public TextMeshProUGUI plateProgressLabel;
+    private int platesLeft;
+    private int completedPlateStacks;
 
     public DishCup cup;
     public GameObject[] cupDrainers;
+    public DishGrid[] cupGrids;
     public Mesh[] cupMeshes;
     public string[] cupTags;
+    public TextMeshProUGUI cupProgressLabel;
+    private int cupsLeft;
+    private int completedCupGrids;
 
-    
-    private int completedPlateStacks;
+    public GameObject[] cutleryDrainers;
+    public DishGrid[] cutleryGrids;
+    public GameObject[] cutleryObjects;
+    public TextMeshProUGUI cutleryProgressLabel;
+    private int cutleryLeft;
+    private int completedCutleryGrids;
 
     private Level2Settings settings;
     private Vector3 initialOriginPos;
@@ -56,7 +71,11 @@ public class Level2Manager : MonoBehaviour {
     }
 
     private void CheckCompletedCondition() {
-        if(plateStacks.Length == completedPlateStacks) {
+        if(
+            plateStacks.Length == completedPlateStacks && 
+            cupGrids.Length == completedCupGrids &&
+            cutleryGrids.Length == completedCutleryGrids
+        ) {
             EndLevel();
         }
     }
@@ -64,6 +83,15 @@ public class Level2Manager : MonoBehaviour {
     private void SetupPlateStacks() {
         foreach(PlateStack plateStack in plateStacks) {
             plateStack.Reset();
+            plateProgressLabel.text = "" + platesLeft;
+            plateStack.OnPlacement.AddListener(() => {
+                platesLeft--;
+                plateProgressLabel.text = "" + platesLeft;
+            });
+            plateStack.OnPlacementExit.AddListener(() => {
+                platesLeft++;
+                plateProgressLabel.text = "" + platesLeft;
+            });
             plateStack.OnCompleted.AddListener(() => {
                 completedPlateStacks++;
                 CheckCompletedCondition();
@@ -96,6 +124,28 @@ public class Level2Manager : MonoBehaviour {
         }
     }
 
+    private void SetupCupGrids() {
+        foreach(DishGrid cupGrid in cupGrids) {
+            cupGrid.Reset();
+            cupProgressLabel.text = "" + cupsLeft;
+            cupGrid.OnPlacement.AddListener(() => {
+                cupsLeft--;
+                cupProgressLabel.text = "" + cupsLeft;
+            });
+            cupGrid.OnPlacementExit.AddListener(() => {
+                cupsLeft++;
+                cupProgressLabel.text = "" + cupsLeft;
+            });
+            cupGrid.OnCompleted.AddListener(() => {
+                completedCupGrids++;
+                CheckCompletedCondition();
+            });
+            cupGrid.OnCompletedExit.AddListener(() => {
+                completedCupGrids--;
+            });
+        }
+    }
+
     private void GenerateCups() {
         List<XRSocketInteractor> sockets = new List<XRSocketInteractor>(); 
         foreach(GameObject drainer in cupDrainers) {
@@ -112,16 +162,75 @@ public class Level2Manager : MonoBehaviour {
 
             sockets[i].interactionManager.SelectEnter(sockets[i], newCup.GetComponent<IXRSelectInteractable>());
         }
+
+        for(int i = 0; i < cupMeshes.Length; i++) {
+            cupGrids[i].targetCount = cupCounts[i];
+        }
+
+    }
+
+    private void SetupCutleryGrids() {
+        foreach(DishGrid cutleryGrid in cutleryGrids) {
+            cutleryGrid.Reset();
+            cutleryProgressLabel.text = "" + cutleryLeft;
+            cutleryGrid.OnPlacement.AddListener(() => {
+                cutleryLeft--;
+                cutleryProgressLabel.text = "" + cutleryLeft;
+            });
+            cutleryGrid.OnPlacementExit.AddListener(() => {
+                cutleryLeft++;
+                cutleryProgressLabel.text = "" + cutleryLeft;
+            });
+            cutleryGrid.OnCompleted.AddListener(() => {
+                completedCutleryGrids++;
+                CheckCompletedCondition();
+            });
+            cutleryGrid.OnCompletedExit.AddListener(() => {
+                completedCutleryGrids--;
+            });
+        }    
+    }
+
+    private void GenerateCutlery() {
+        List<XRSocketInteractor> sockets = new List<XRSocketInteractor>(); 
+        foreach(GameObject drainer in cutleryDrainers) {
+            sockets.AddRange(drainer.GetComponentsInChildren<XRSocketInteractor>());
+        }    
+
+        int[] cutleryCounts = new int[cutleryObjects.Length];
+        for(int i = 0; i < settings.cutleryNumber; i++) {
+            int cutleryIndex = Random.Range(0, cutleryObjects.Length);
+
+            GameObject newCutlery = Instantiate(cutleryObjects[cutleryIndex]);
+
+            cutleryCounts[cutleryIndex]++;
+
+            sockets[i].interactionManager.SelectEnter(sockets[i], newCutlery.GetComponent<IXRSelectInteractable>());
+        }
+
+        for(int i = 0; i < cutleryGrids.Length; i++) {
+            cutleryGrids[i].targetCount = cutleryCounts[i];
+        }
     }
 
     private void StartLevel() {
-        completedPlateStacks = 0;
         settings = (Level2Settings) SettingsManager.GetLevelSettings(1);
+
+        platesLeft = settings.platesNumber;
+        completedPlateStacks = 0;
+        cupsLeft = settings.cupsNumber;
+        completedCupGrids = 0;
+        cutleryLeft = settings.cutleryNumber;
+        completedCutleryGrids = 0;
 
         SetupPlateStacks();
         GeneratePlates();
 
+        SetupCupGrids();
         GenerateCups();
+
+        SetupCutleryGrids();
+        GenerateCutlery();
     }
 
     public void RestartLevel() {

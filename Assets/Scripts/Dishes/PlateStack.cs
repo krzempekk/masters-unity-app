@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-
 using UnityEngine.XR.Interaction.Toolkit;
 
 public class PlateStack: MonoBehaviour {
@@ -12,6 +11,8 @@ public class PlateStack: MonoBehaviour {
     public int maxHeight = 10;
     public int targetHeight = -1;
     public int currentHeight = 0;
+    public UnityEvent OnPlacement;
+    public UnityEvent OnPlacementExit;
     public UnityEvent OnCompleted;
     public UnityEvent OnCompletedExit;
 
@@ -48,12 +49,14 @@ public class PlateStack: MonoBehaviour {
             interactable.GetComponent<XRGrabInteractable>().interactionLayers = InteractionLayerMask.GetMask("Socket");
         }
 
+        OnPlacement.Invoke();
         if(targetHeight > 0 && currentHeight == targetHeight) {
             OnCompleted.Invoke();
         }
     }
 
     public void DecreaseHeight(SelectExitEventArgs args) {
+        OnPlacementExit.Invoke();
         if(targetHeight > 0 && currentHeight == targetHeight) {
             OnCompletedExit.Invoke();
         }
@@ -72,9 +75,5 @@ public class PlateStack: MonoBehaviour {
         currentHeight = 0;
         OnCompleted.RemoveAllListeners();
         OnCompletedExit.RemoveAllListeners();
-    }
-
-    void Update() {
-        
     }
 }
