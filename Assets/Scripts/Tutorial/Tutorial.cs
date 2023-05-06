@@ -4,9 +4,8 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.XR.Interaction.Toolkit;
 
-public class Level1Tutorial : MonoBehaviour {
+public class Tutorial : MonoBehaviour {
     public TutorialStep[] tutorialSteps;
-    public XRBaseController[] controllers;
     public Light directionalLight;
 
     public IEnumerator SmoothLight(float startIntensity, float endIntensity, float duration = 5.0f) {
@@ -19,10 +18,6 @@ public class Level1Tutorial : MonoBehaviour {
     }
 
     public IEnumerator PlayTutorialRoutine() {
-        // foreach(XRBaseController controller in controllers) {
-        //     controller.gameObject.SetActive(false);
-        // }
-
         directionalLight.intensity = 0;
 
         foreach(TutorialStep step in tutorialSteps) {
@@ -38,13 +33,10 @@ public class Level1Tutorial : MonoBehaviour {
         }
 
         StartCoroutine(SmoothLight(0, 0.6f));
-
-        // foreach(XRBaseController controller in controllers) {
-        //     controller.gameObject.SetActive(true);
-        // }
     }
 
     public void PlayTutorial() {
         StartCoroutine(PlayTutorialRoutine());
     }
 }
+

@@ -7,6 +7,7 @@ public class Level2Canvas : MonoBehaviour {
     public GameObject platesNumberSlider;
     public GameObject cupsNumberSlider;
     public GameObject cutleryNumberSlider;
+    public Toggle disableTutorialToggle;
 
     private Level2Settings level2Settings;
 
@@ -24,6 +25,11 @@ public class Level2Canvas : MonoBehaviour {
         Slider cutlerySlider = cutleryNumberSlider.GetComponentInChildren<Slider>();
         cutlerySlider.onValueChanged.AddListener(OnCutlerySliderChanged);
         cutlerySlider.value = level2Settings.cutleryNumber;
+
+        disableTutorialToggle.onValueChanged.AddListener((bool disableTutorial) => {
+            level2Settings.disableTutorial = disableTutorial;
+        });
+        disableTutorialToggle.isOn = level2Settings.disableTutorial;
     }
 
     public void OnPlatesSliderChanged(System.Single value) {

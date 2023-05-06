@@ -44,7 +44,7 @@ public class Level1Manager : MonoBehaviour {
     public GameObject XROrigin;
     public ItemCategory[] itemCategories;
 
-    public Level1Tutorial tutorial;
+    public Tutorial tutorial;
     public Level1Stats stats;
 
     private List<ItemCategory> activeCategories = new List<ItemCategory>();

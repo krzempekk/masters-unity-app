@@ -8,6 +8,7 @@ public class Level2Settings : BaseSettings {
     public int platesNumber;
     public int cupsNumber;
     public int cutleryNumber;
+    public bool disableTutorial;
 
     public Level2Settings(string _preset): base(_preset) {
     }
@@ -16,12 +17,14 @@ public class Level2Settings : BaseSettings {
         platesNumber = PlayerPrefs.GetInt($"{preset}:l2:platesNumber", 5);
         cupsNumber = PlayerPrefs.GetInt($"{preset}:l2:cupsNumber", 5);
         cutleryNumber = PlayerPrefs.GetInt($"{preset}:l2:cutleryNumber", 5);
+        disableTutorial = GetBooleanFromPrefs("l2:disableTutorial");
     }
 
     override public void SetSettingsToPrefs() {
         PlayerPrefs.SetInt($"{preset}:l2:platesNumber", platesNumber);
         PlayerPrefs.SetInt($"{preset}:l2:cupsNumber", cupsNumber);
         PlayerPrefs.SetInt($"{preset}:l2:cutleryNumber", cutleryNumber);
+        SetBooleanToPrefs("l2:disableTutorial", disableTutorial);
     }
 }
 
@@ -56,6 +59,12 @@ public class Level2Manager : MonoBehaviour {
     public TextMeshProUGUI cutleryProgressLabel;
     private int cutleryLeft;
     private int completedCutleryGrids;
+
+
+    public Canvas progressCanvas;
+    public Canvas winCanvas;
+
+    public Tutorial tutorial;
 
     private Level2Settings settings;
     private Vector3 initialOriginPos;
@@ -231,6 +240,9 @@ public class Level2Manager : MonoBehaviour {
 
         SetupCutleryGrids();
         GenerateCutlery();
+
+        progressCanvas.gameObject.SetActive(true);
+        winCanvas.gameObject.SetActive(false);
     }
 
     public void RestartLevel() {
@@ -243,9 +255,14 @@ public class Level2Manager : MonoBehaviour {
 
         XROrigin.transform.position = initialOriginPos;
         StartLevel();
+
+        if(!settings.disableTutorial) {
+            tutorial.PlayTutorial();
+        }
     }
 
     private void EndLevel() {
-        Debug.Log("End level");
+        progressCanvas.gameObject.SetActive(false);
+        winCanvas.gameObject.SetActive(true);
     }
 }
