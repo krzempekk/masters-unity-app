@@ -7,6 +7,7 @@ public class SceneTransitionManager: MonoBehaviour {
     public FadeScreen fadeScreen;
 
     public void GoToScene(int sceneIndex) {
+        SettingsManager.SaveAndApplySettings();
         StartCoroutine(GoToSceneRoutine(sceneIndex));
     }
 

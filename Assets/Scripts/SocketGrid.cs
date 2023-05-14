@@ -14,7 +14,7 @@ public class SocketGrid: MonoBehaviour {
     public float blueOffset = 0.02f;
     public float greenOffset = 0.02f;
 
-    private void Start() {
+    private void Awake() {
         for(int r = 0; r < redCount; r++) {
             for(int b = 0; b < blueCount; b++) {
                 for(int g = 0; g < greenCount; g++) {

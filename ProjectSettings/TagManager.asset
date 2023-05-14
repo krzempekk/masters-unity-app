@@ -18,6 +18,8 @@ TagManager:
   - RedPlate
   - RedCup
   - BlueCup
+  - RightHand
+  - LeftHand
   layers:
   - Default
   - TransparentFX

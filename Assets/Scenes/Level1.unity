@@ -3352,7 +3352,7 @@ MonoBehaviour:
   - {fileID: 1030931099}
   - {fileID: 1384408427}
   progressCanvas: {fileID: 968777853}
-  winCanvas: {fileID: 1746412294}
+  winCanvas: {fileID: 1746412296}
   fadeScreen: {fileID: 972229571}
   XROrigin: {fileID: 3091374908656476127}
   itemCategories:
@@ -10644,6 +10644,7 @@ GameObject:
   - component: {fileID: 1746412291}
   - component: {fileID: 1746412294}
   - component: {fileID: 1746412295}
+  - component: {fileID: 1746412296}
   m_Layer: 5
   m_Name: WinCanvas
   m_TagString: Untagged
@@ -10852,6 +10853,27 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1746412296
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1746412289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a771420be6b7b864cbf3ac770d218817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stars:
+  - {fileID: 2060398466}
+  - {fileID: 981385021}
+  - {fileID: 1927842340}
+  activeMaterial: {fileID: 2100000, guid: 640dc2f025ee433489ca50d9f685de47, type: 2}
+  inactiveMaterial: {fileID: 2100000, guid: 5c623d53aca45c44586ec2d14fef488e, type: 2}
+  audioSource: {fileID: 1746412295}
+  sound: {fileID: 8300000, guid: a5c3521aba737eb4994fc9f8498b5c32, type: 3}
+  levelTime: {fileID: 270664277}
 --- !u!1 &1751844169
 GameObject:
   m_ObjectHideFlags: 0
@@ -14246,6 +14268,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1655560230415123260, guid: 9542ce67e5eedc14ca0dba5463a98558, type: 3}
+      propertyPath: m_Name
+      value: SmoothMovement
+      objectReference: {fileID: 0}
     - target: {fileID: 1981539039600906379, guid: 9542ce67e5eedc14ca0dba5463a98558, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -14258,10 +14284,22 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1981539041222805782, guid: 9542ce67e5eedc14ca0dba5463a98558, type: 3}
+      propertyPath: teleportationToggle
+      value: 
+      objectReference: {fileID: 1981539041028299660}
+    - target: {fileID: 1981539041222805782, guid: 9542ce67e5eedc14ca0dba5463a98558, type: 3}
+      propertyPath: smoothMovementToggle
+      value: 
+      objectReference: {fileID: 1981539041028299661}
     - target: {fileID: 1981539041222805783, guid: 9542ce67e5eedc14ca0dba5463a98558, type: 3}
       propertyPath: onLevelSettingsApplied.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 436084168}
+    - target: {fileID: 2269897824361617052, guid: 9542ce67e5eedc14ca0dba5463a98558, type: 3}
+      propertyPath: m_Name
+      value: Teleportation
+      objectReference: {fileID: 0}
     - target: {fileID: 3296807667706350420, guid: 9542ce67e5eedc14ca0dba5463a98558, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -14452,6 +14490,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9542ce67e5eedc14ca0dba5463a98558, type: 3}
+--- !u!114 &1981539041028299660 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2269897824361617042, guid: 9542ce67e5eedc14ca0dba5463a98558, type: 3}
+  m_PrefabInstance: {fileID: 1981539041028299659}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9085046f02f69544eb97fd06b6048fe2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1981539041028299661 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1655560230415123250, guid: 9542ce67e5eedc14ca0dba5463a98558, type: 3}
+  m_PrefabInstance: {fileID: 1981539041028299659}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9085046f02f69544eb97fd06b6048fe2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2051766762597937893
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14822,6 +14882,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3091374908388557372, guid: 3bfe74863f05ffa418c5606d746ff807, type: 3}
+      propertyPath: m_TagString
+      value: RightHand
+      objectReference: {fileID: 0}
     - target: {fileID: 3091374909625390939, guid: 3bfe74863f05ffa418c5606d746ff807, type: 3}
       propertyPath: m_RayInteractor
       value: 
@@ -14830,6 +14894,10 @@ PrefabInstance:
       propertyPath: m_DirectInteractor
       value: 
       objectReference: {fileID: 1005888734}
+    - target: {fileID: 3091374909625390939, guid: 3bfe74863f05ffa418c5606d746ff807, type: 3}
+      propertyPath: m_SmoothMotionEnabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3091374909625390939, guid: 3bfe74863f05ffa418c5606d746ff807, type: 3}
       propertyPath: m_ManipulationInteractionGroup
       value: 
@@ -14841,6 +14909,10 @@ PrefabInstance:
     - target: {fileID: 3091374909625391008, guid: 3bfe74863f05ffa418c5606d746ff807, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3091374909625391008, guid: 3bfe74863f05ffa418c5606d746ff807, type: 3}
+      propertyPath: m_TagString
+      value: LeftHand
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 3091374909625390941, guid: 3bfe74863f05ffa418c5606d746ff807, type: 3}
@@ -14995,7 +15067,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   distanceGrabToggle: {fileID: 0}
-  heightSlider: {fileID: 0}
+  smoothMovementToggle: {fileID: 0}
+  teleportationToggle: {fileID: 0}
 --- !u!1001 &3835086952966735530
 PrefabInstance:
   m_ObjectHideFlags: 0

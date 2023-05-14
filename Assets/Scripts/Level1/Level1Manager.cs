@@ -176,6 +176,8 @@ public class Level1Manager : MonoBehaviour {
     }
 
     private void StartLevel() {
+        SettingsManager.LoadSettings();
+        SettingsManager.ApplySettings();
         settings = (Level1Settings) SettingsManager.GetLevelSettings(0);
 
         GenerateObjects();

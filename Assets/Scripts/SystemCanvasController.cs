@@ -6,29 +6,30 @@ using TMPro;
 
 public class SystemCanvasController: MonoBehaviour {
     public Toggle distanceGrabToggle;
-    public GameObject heightSlider;
+    public Toggle smoothMovementToggle;
+    public Toggle teleportationToggle;
     
     private MainSettings mainSettings;
 
     void Start() {
         mainSettings = SettingsManager.GetMainSettings();
 
-        distanceGrabToggle.onValueChanged.AddListener(OnRaysCheckboxValueChanged);
+        distanceGrabToggle.onValueChanged.AddListener((distanceGrab) => {
+            mainSettings.distanceGrab = distanceGrab;
+            SettingsManager.SaveAndApplySettings();
+        });
         distanceGrabToggle.isOn = mainSettings.distanceGrab;
 
-        Slider slider = heightSlider.GetComponentInChildren<Slider>();
-        slider.onValueChanged.AddListener(OnSliderChanged);
-        slider.value = mainSettings.height;
-    }
+        smoothMovementToggle.onValueChanged.AddListener((smoothMovement) => {
+            mainSettings.smoothMovement = smoothMovement;
+            SettingsManager.SaveAndApplySettings();
+        });
+        smoothMovementToggle.isOn = mainSettings.smoothMovement;
 
-    public void OnRaysCheckboxValueChanged(bool distanceGrab) {
-        mainSettings.distanceGrab = distanceGrab;
-        SettingsManager.SaveSettings();
-    }
-
-    public void OnSliderChanged(System.Single height) {
-        heightSlider.GetComponentInChildren<TextMeshProUGUI>().text = "" + height;
-        mainSettings.height = height;
-        SettingsManager.SaveSettings();
+        teleportationToggle.onValueChanged.AddListener((teleportation) => {
+            mainSettings.teleportation = teleportation;
+            SettingsManager.SaveAndApplySettings();
+        });
+        teleportationToggle.isOn = mainSettings.teleportation;
     }
 }

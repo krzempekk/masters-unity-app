@@ -75,8 +75,11 @@ public class Level2Manager : MonoBehaviour {
         } else { 
             instance = this; 
             initialOriginPos = XROrigin.transform.position;
-            StartLevel();
         } 
+    }
+
+    private void Start() {
+        StartLevel();
     }
 
     private void CheckCompletedCondition() {
@@ -243,6 +246,10 @@ public class Level2Manager : MonoBehaviour {
 
         progressCanvas.gameObject.SetActive(true);
         winCanvas.gameObject.SetActive(false);
+
+        if(!settings.disableTutorial) {
+            tutorial.PlayTutorial();
+        }
     }
 
     public void RestartLevel() {
@@ -255,10 +262,6 @@ public class Level2Manager : MonoBehaviour {
 
         XROrigin.transform.position = initialOriginPos;
         StartLevel();
-
-        if(!settings.disableTutorial) {
-            tutorial.PlayTutorial();
-        }
     }
 
     private void EndLevel() {

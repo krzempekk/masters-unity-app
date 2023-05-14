@@ -299,6 +299,14 @@ namespace UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets
             SetEnabled(m_SnapTurn, !m_SmoothMotionEnabled && !m_SmoothTurnEnabled);
         }
 
+        public void SetSmoothMovementEnaled(bool smoothMovementEnabled) {
+            SetEnabled(m_Move, smoothMovementEnabled);
+        }
+
+        public void SetTeleportEnabled(bool teleportEnabled) {
+            SetEnabled(m_TeleportModeActivate, teleportEnabled);
+        }
+
         void DisableLocomotionActions()
         {
             DisableAction(m_Move);

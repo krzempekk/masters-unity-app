@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.SceneManagement;
 using System;
+using UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets;
 
 public class SystemManager: MonoBehaviour, SettingsListener {
     public static SystemManager instance { get; private set; }
@@ -33,6 +34,16 @@ public class SystemManager: MonoBehaviour, SettingsListener {
                 interactor.GetComponent<XRInteractorLineVisual>().invalidColorGradient = transparentGradient;
             }
         }
+
+        GameObject
+            .FindGameObjectWithTag("LeftHand")
+            .GetComponent<ActionBasedControllerManager>()
+            .SetSmoothMovementEnaled(settings.smoothMovement);
+
+        GameObject
+            .FindGameObjectWithTag("RightHand")
+            .GetComponent<ActionBasedControllerManager>()
+            .SetTeleportEnabled(settings.teleportation);
 
         // CharacterController characterController = GameObject
         //     .FindGameObjectWithTag("XROrigin")

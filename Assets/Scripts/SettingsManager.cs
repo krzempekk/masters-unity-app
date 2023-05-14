@@ -10,8 +10,8 @@ abstract public class BaseSettings {
         preset = _preset;
     }
 
-    protected bool GetBooleanFromPrefs(string property) {
-        return Convert.ToBoolean(PlayerPrefs.GetInt($"{preset}:{property}", 0));
+    protected bool GetBooleanFromPrefs(string property, bool defaultValue = false) {
+        return Convert.ToBoolean(PlayerPrefs.GetInt($"{preset}:{property}", Convert.ToInt32(defaultValue)));
     }
 
     protected void SetBooleanToPrefs(string property, bool value) {
@@ -27,16 +27,19 @@ public class MainSettings: BaseSettings {
     }
 
     public bool distanceGrab;
-    public float height;
+    public bool smoothMovement;
+    public bool teleportation;
 
     override public void GetSettingsFromPrefs() {
         distanceGrab = GetBooleanFromPrefs("distanceGrab");
-        height = PlayerPrefs.GetFloat($"{preset}:height", 2.0f);
+        smoothMovement = GetBooleanFromPrefs("smoothMovement", true);
+        teleportation = GetBooleanFromPrefs("teleportation");
     }
 
     override public void SetSettingsToPrefs() {
         SetBooleanToPrefs("distanceGrab", distanceGrab);
-        PlayerPrefs.SetFloat($"{preset}:height", height);
+        SetBooleanToPrefs("smoothMovement", smoothMovement);
+        SetBooleanToPrefs("teleportation", teleportation);
     }
 }
 
@@ -88,12 +91,16 @@ public class SettingsManager: MonoBehaviour {
         }
     }
 
-    public static void SaveSettings() {
+    public static void SaveAndApplySettings() {
         instance.mainSettings.SetSettingsToPrefs();
         foreach(BaseSettings _levelSettings in instance.levelSettings) {
             _levelSettings.SetSettingsToPrefs();
         }
 
+        ApplySettings();
+    }
+
+    public static void ApplySettings() {
         foreach(SettingsListener listener in instance.listeners) {
             listener.ApplySettings();
         }
