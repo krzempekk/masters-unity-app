@@ -62,7 +62,7 @@ public class Level2Manager : MonoBehaviour {
 
 
     public Canvas progressCanvas;
-    public Canvas winCanvas;
+    public WinCanvasController winCanvas;
 
     public Tutorial tutorial;
 
@@ -70,7 +70,7 @@ public class Level2Manager : MonoBehaviour {
     private Vector3 initialOriginPos;
 
     public GameObject exitKnob;
-    public Transform spawnParent;
+    public LevelStats stats;
 
     private void Awake() { 
         if (instance != null && instance != this) { 
@@ -275,6 +275,8 @@ public class Level2Manager : MonoBehaviour {
         if(!settings.disableTutorial) {
             tutorial.PlayTutorial();
         }
+
+        stats.StartLevel();
     }
 
     public void RestartLevel() {
@@ -290,9 +292,11 @@ public class Level2Manager : MonoBehaviour {
     }
 
     private void EndLevel() {
+        stats.EndLevel();
         exitKnob.SetActive(true);
 
         progressCanvas.gameObject.SetActive(false);
         winCanvas.gameObject.SetActive(true);
+        winCanvas.ShowResults();
     }
 }

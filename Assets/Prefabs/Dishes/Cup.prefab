@@ -46,6 +46,7 @@ GameObject:
   - component: {fileID: 5075302989747140841}
   - component: {fileID: 5075302989747140837}
   - component: {fileID: 5075302989747140842}
+  - component: {fileID: 6535825795637792976}
   m_Layer: 7
   m_Name: Cup
   m_TagString: RedCup
@@ -295,3 +296,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44f37c4a3b083fc4aa6da13927689284, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6535825795637792976
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5883333152544662106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 276fb1b788067e049a4287b2a9d45f1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stats: {fileID: 0}

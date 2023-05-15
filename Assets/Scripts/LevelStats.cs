@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Level1Stats : MonoBehaviour {
+public class LevelStats : MonoBehaviour {
     public int correctPlacements;
     public int incorrectPlacements;
     private DateTime timeStart;

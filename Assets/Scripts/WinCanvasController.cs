@@ -10,17 +10,16 @@ public class WinCanvasController : MonoBehaviour {
     public AudioSource audioSource;
     public AudioClip sound;
     public TextMeshProUGUI levelTime;
+    public LevelStats levelStats;
 
     public IEnumerator ShowResultsRoutine() {
         foreach(MeshRenderer star in stars) {
             star.material = inactiveMaterial;
         }
 
-        Level1Stats stats = Level1Manager.instance.stats;
+        levelTime.text = levelStats.getTimeElapsed().ToString(@"mm\:ss");
 
-        levelTime.text = stats.getTimeElapsed().ToString(@"mm\:ss");
-
-        int starsNumber = stats.GetStarsNumber();
+        int starsNumber = levelStats.GetStarsNumber();
         for(int i = 0; i < starsNumber; i++) {
             yield return new WaitForSeconds(1.0f);
             audioSource.PlayOneShot(sound);

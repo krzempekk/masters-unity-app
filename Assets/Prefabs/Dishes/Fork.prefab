@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2952958425937722931}
   - component: {fileID: 2952958425937722932}
   - component: {fileID: 2952958425937722930}
+  - component: {fileID: 2639861009115693868}
   m_Layer: 7
   m_Name: Fork
   m_TagString: Fork
@@ -251,6 +252,18 @@ MonoBehaviour:
   m_StartingSingleGrabTransformers: []
   m_StartingMultipleGrabTransformers: []
   m_AddDefaultGrabTransformers: 1
+--- !u!114 &2639861009115693868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2409655096353459885}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 276fb1b788067e049a4287b2a9d45f1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2952958425750782969
 GameObject:
   m_ObjectHideFlags: 0

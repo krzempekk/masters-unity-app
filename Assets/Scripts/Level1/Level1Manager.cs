@@ -45,7 +45,7 @@ public class Level1Manager : MonoBehaviour {
     public ItemCategory[] itemCategories;
 
     public Tutorial tutorial;
-    public Level1Stats stats;
+    public LevelStats stats;
 
     public GameObject exitKnob;
 
