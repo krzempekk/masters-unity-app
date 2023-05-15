@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3406755340412799986}
   - component: {fileID: 3406755340412799987}
   - component: {fileID: 3406755340412799985}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SpoonLittle
   m_TagString: SpoonLittle
   m_Icon: {fileID: 0}
@@ -260,7 +260,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3406755341503367014}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: AttachTransform
   m_TagString: Untagged
   m_Icon: {fileID: 0}

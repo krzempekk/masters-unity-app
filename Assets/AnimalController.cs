@@ -5,21 +5,27 @@ using UnityEngine.XR.Interaction.Toolkit;
 
 public class AnimalController : MonoBehaviour {
     public XRBaseInteractable headpatZone;
+    public XRSocketInteractor bananaSocket;
     private Animator animator;
     private bool isHovering = false;
 
     // Start is called before the first frame update
     void Start() {
         animator = GetComponent<Animator>();
-        ChangeToSleep();
+        ChangeToIdle();
 
         headpatZone.hoverEntered.AddListener((call) => {
             isHovering = true;
             StartCoroutine(HeadpatsRoutine());
         });
+
         headpatZone.hoverExited.AddListener((call) => {
             isHovering = false;
-            StartCoroutine(SleepRoutine());
+            StartCoroutine(IdleRoutine());
+        });
+
+        bananaSocket.selectEntered.AddListener((call) => {
+            StartCoroutine(EatingRoutine());
         });
     }
 
@@ -30,27 +36,30 @@ public class AnimalController : MonoBehaviour {
         }
     }
 
-    private IEnumerator SleepRoutine() {
-        yield return new WaitForSeconds(5);
+    private IEnumerator IdleRoutine() {
+        yield return new WaitForSeconds(4);
         if(!isHovering) {
-            ChangeToSleep();
+            ChangeToIdle();
         }
     }
 
+    private IEnumerator EatingRoutine() {
+        ChangeToEating();
+        yield return new WaitForSeconds(3);
+        Destroy(bananaSocket.firstInteractableSelected.transform.gameObject);
+        ChangeToHappy();
+    }
+
     private void ChangeToHappy() {
-        animator.Play("Idle_A");
-        animator.Play("Eyes_Happy");
-        animator.speed = 0.5f;
+        animator.Play("Fox_Jump_Pivot_InPlace");
     }
 
-    private void ChangeToSleep() {
-        animator.Play("Sit");
-        animator.Play("Eyes_Sleep");
-        animator.speed = 0.25f;
+    private void ChangeToIdle() {
+        animator.Play("Fox_Idle");
     }
 
-    // Update is called once per frame
-    void Update() {
-        
+    private void ChangeToEating() {
+        animator.Play("Fox_Falling");
     }
+
 }

@@ -70,8 +70,8 @@ public class PlateStack: MonoBehaviour {
         }
     }
 
-    public void Reset() {
-        targetHeight = -1;
+    public void Reset(int _targetHeight) {
+        targetHeight = _targetHeight;
         currentHeight = 0;
         OnCompleted.RemoveAllListeners();
         OnCompletedExit.RemoveAllListeners();

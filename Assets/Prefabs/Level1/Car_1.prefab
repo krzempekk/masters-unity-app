@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 9065910209988382022}
   - component: {fileID: 9065910209988382009}
   - component: {fileID: 9065910209988382023}
-  - component: {fileID: -518783000267060719}
+  - component: {fileID: 746604680797203198}
   m_Layer: 7
   m_Name: Car_1
   m_TagString: ItemCategory2
@@ -277,7 +277,7 @@ MonoBehaviour:
   m_StartingSingleGrabTransformers: []
   m_StartingMultipleGrabTransformers: []
   m_AddDefaultGrabTransformers: 1
---- !u!114 &-518783000267060719
+--- !u!114 &746604680797203198
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -286,7 +286,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 9065910209988266971}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a55cb2efb84be248b9435c62c95f8f1, type: 3}
+  m_Script: {fileID: 11500000, guid: 1cb83b2010296f54ea7f7513ab587f89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &9065910209988472301

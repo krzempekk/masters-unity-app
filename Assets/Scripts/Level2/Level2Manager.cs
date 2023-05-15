@@ -69,6 +69,9 @@ public class Level2Manager : MonoBehaviour {
     private Level2Settings settings;
     private Vector3 initialOriginPos;
 
+    public GameObject exitKnob;
+    public Transform spawnParent;
+
     private void Awake() { 
         if (instance != null && instance != this) { 
             Destroy(this); 
@@ -92,141 +95,166 @@ public class Level2Manager : MonoBehaviour {
         }
     }
 
-    private void SetupPlateStacks() {
-        foreach(PlateStack plateStack in plateStacks) {
-            plateStack.Reset();
+    private void SetupPlateStack(PlateStack plateStack, int plateCount) {
+        plateStack.Reset(plateCount);
+        plateProgressLabel.text = "" + platesLeft;
+        plateStack.OnPlacement.AddListener(() => {
+            platesLeft--;
             plateProgressLabel.text = "" + platesLeft;
-            plateStack.OnPlacement.AddListener(() => {
-                platesLeft--;
-                plateProgressLabel.text = "" + platesLeft;
-            });
-            plateStack.OnPlacementExit.AddListener(() => {
-                platesLeft++;
-                plateProgressLabel.text = "" + platesLeft;
-            });
-            plateStack.OnCompleted.AddListener(() => {
-                completedPlateStacks++;
-                CheckCompletedCondition();
-            });
-            plateStack.OnCompletedExit.AddListener(() => {
-                completedPlateStacks--;
-            });
-        }
+        });
+        plateStack.OnPlacementExit.AddListener(() => {
+            platesLeft++;
+            plateProgressLabel.text = "" + platesLeft;
+        });
+        plateStack.OnCompleted.AddListener(() => {
+            completedPlateStacks++;
+            CheckCompletedCondition();
+        });
+        plateStack.OnCompletedExit.AddListener(() => {
+            completedPlateStacks--;
+        });
     }
 
     private void GeneratePlates() {
+        for(int i = 0; i < plateTags.Length; i++) {
+            foreach(GameObject item in GameObject.FindGameObjectsWithTag(plateTags[i])) {
+                Destroy(item);
+            }
+        }
+
         List<XRSocketInteractor> sockets = new List<XRSocketInteractor>(); 
         foreach(GameObject drainer in plateDrainers) {
             sockets.AddRange(drainer.GetComponentsInChildren<XRSocketInteractor>());
         }
 
-        int[] plateCounts = new int[plateMeshes.Length];
-        for(int i = 0; i < settings.platesNumber; i++) {
-            DishPlate newPlate = Instantiate(plate);
-
-            int colorIndex = Random.Range(0, plateMeshes.Length);
-            newPlate.InitializePlate(plateMeshes[colorIndex], plateTags[colorIndex]);
-            plateCounts[colorIndex]++;
-
-            sockets[i].interactionManager.SelectEnter(sockets[i], newPlate.GetComponent<IXRSelectInteractable>());
-        }
-
+        int itemsLeft = settings.platesNumber;
+        int stacksLeft = plateStacks.Length;
+        int socketIndex = 0;
         for(int i = 0; i < plateMeshes.Length; i++) {
-            plateStacks[i].targetHeight = plateCounts[i];
+            int plateCount = itemsLeft / stacksLeft;
+            itemsLeft -= plateCount;
+            stacksLeft--;
+            SetupPlateStack(plateStacks[i], plateCount);
+            for(int j = 0; j < plateCount; j++) {
+                DishPlate newPlate = Instantiate(plate);
+                newPlate.InitializePlate(plateMeshes[i], plateTags[i]);
+                sockets[socketIndex].interactionManager.SelectEnter(
+                    sockets[socketIndex], 
+                    newPlate.GetComponent<IXRSelectInteractable>()
+                );
+                socketIndex++;
+            }
         }
     }
 
-    private void SetupCupGrids() {
-        foreach(DishGrid cupGrid in cupGrids) {
-            cupGrid.Reset();
+    private void SetupCupGrid(DishGrid cupGrid, int cupCount) {
+        cupGrid.Reset(cupCount);
+        cupProgressLabel.text = "" + cupsLeft;
+        cupGrid.OnPlacement.AddListener(() => {
+            cupsLeft--;
             cupProgressLabel.text = "" + cupsLeft;
-            cupGrid.OnPlacement.AddListener(() => {
-                cupsLeft--;
-                cupProgressLabel.text = "" + cupsLeft;
-            });
-            cupGrid.OnPlacementExit.AddListener(() => {
-                cupsLeft++;
-                cupProgressLabel.text = "" + cupsLeft;
-            });
-            cupGrid.OnCompleted.AddListener(() => {
-                completedCupGrids++;
-                CheckCompletedCondition();
-            });
-            cupGrid.OnCompletedExit.AddListener(() => {
-                completedCupGrids--;
-            });
-        }
+        });
+        cupGrid.OnPlacementExit.AddListener(() => {
+            cupsLeft++;
+            cupProgressLabel.text = "" + cupsLeft;
+        });
+        cupGrid.OnCompleted.AddListener(() => {
+            completedCupGrids++;
+            CheckCompletedCondition();
+        });
+        cupGrid.OnCompletedExit.AddListener(() => {
+            completedCupGrids--;
+        });
     }
 
     private void GenerateCups() {
+        for(int i = 0; i < cupTags.Length; i++) {
+            foreach(GameObject item in GameObject.FindGameObjectsWithTag(cupTags[i])) {
+                Destroy(item);
+            }
+        }
+
         List<XRSocketInteractor> sockets = new List<XRSocketInteractor>(); 
         foreach(GameObject drainer in cupDrainers) {
             sockets.AddRange(drainer.GetComponentsInChildren<XRSocketInteractor>());
         }
 
-        int[] cupCounts = new int[cupMeshes.Length];
-        for(int i = 0; i < settings.cupsNumber; i++) {
-            DishCup newCup = Instantiate(cup);
-
-            int colorIndex = Random.Range(0, cupMeshes.Length);
-            newCup.InitializeCup(cupMeshes[colorIndex], cupTags[colorIndex]);
-            cupCounts[colorIndex]++;
-
-            sockets[i].interactionManager.SelectEnter(sockets[i], newCup.GetComponent<IXRSelectInteractable>());
-        }
-
+        int itemsLeft = settings.cupsNumber;
+        int gridsLeft = cupGrids.Length;
+        int socketIndex = 0;
         for(int i = 0; i < cupMeshes.Length; i++) {
-            cupGrids[i].targetCount = cupCounts[i];
+            int cupCount = itemsLeft / gridsLeft;
+            itemsLeft -= cupCount;
+            gridsLeft--;
+            SetupCupGrid(cupGrids[i], cupCount);
+            for(int j = 0; j < cupCount; j++) {
+                DishCup newCup = Instantiate(cup);
+                newCup.InitializeCup(cupMeshes[i], cupTags[i]);
+                sockets[socketIndex].interactionManager.SelectEnter(
+                    sockets[socketIndex], 
+                    newCup.GetComponent<IXRSelectInteractable>()
+                );
+                socketIndex++;
+            }
         }
-
     }
 
-    private void SetupCutleryGrids() {
-        foreach(DishGrid cutleryGrid in cutleryGrids) {
-            cutleryGrid.Reset();
+    private void SetupCutleryGrid(DishGrid cutleryGrid, int cutleryCount) {
+        cutleryGrid.Reset(cutleryCount);
+        cutleryProgressLabel.text = "" + cutleryLeft;
+        cutleryGrid.OnPlacement.AddListener(() => {
+            cutleryLeft--;
             cutleryProgressLabel.text = "" + cutleryLeft;
-            cutleryGrid.OnPlacement.AddListener(() => {
-                cutleryLeft--;
-                cutleryProgressLabel.text = "" + cutleryLeft;
-            });
-            cutleryGrid.OnPlacementExit.AddListener(() => {
-                cutleryLeft++;
-                cutleryProgressLabel.text = "" + cutleryLeft;
-            });
-            cutleryGrid.OnCompleted.AddListener(() => {
-                completedCutleryGrids++;
-                CheckCompletedCondition();
-            });
-            cutleryGrid.OnCompletedExit.AddListener(() => {
-                completedCutleryGrids--;
-            });
-        }    
+        });
+        cutleryGrid.OnPlacementExit.AddListener(() => {
+            cutleryLeft++;
+            cutleryProgressLabel.text = "" + cutleryLeft;
+        });
+        cutleryGrid.OnCompleted.AddListener(() => {
+            completedCutleryGrids++;
+            CheckCompletedCondition();
+        });
+        cutleryGrid.OnCompletedExit.AddListener(() => {
+            completedCutleryGrids--;
+        });
     }
 
     private void GenerateCutlery() {
+        for(int i = 0; i < cutleryObjects.Length; i++) {
+            foreach(GameObject item in GameObject.FindGameObjectsWithTag(cutleryObjects[i].tag)) {
+                Destroy(item);
+            }
+        }
+
+
         List<XRSocketInteractor> sockets = new List<XRSocketInteractor>(); 
         foreach(GameObject drainer in cutleryDrainers) {
             sockets.AddRange(drainer.GetComponentsInChildren<XRSocketInteractor>());
         }    
 
-        int[] cutleryCounts = new int[cutleryObjects.Length];
-        for(int i = 0; i < settings.cutleryNumber; i++) {
-            int cutleryIndex = Random.Range(0, cutleryObjects.Length);
-
-            GameObject newCutlery = Instantiate(cutleryObjects[cutleryIndex]);
-
-            cutleryCounts[cutleryIndex]++;
-
-            sockets[i].interactionManager.SelectEnter(sockets[i], newCutlery.GetComponent<IXRSelectInteractable>());
-        }
-
-        for(int i = 0; i < cutleryGrids.Length; i++) {
-            cutleryGrids[i].targetCount = cutleryCounts[i];
+        int itemsLeft = settings.cutleryNumber;
+        int gridsLeft = cutleryGrids.Length;
+        int socketIndex = 0;
+        for(int i = 0; i < cutleryObjects.Length; i++) {
+            int cutleryCount = itemsLeft / gridsLeft;
+            itemsLeft -= cutleryCount;
+            gridsLeft--;
+            SetupCutleryGrid(cutleryGrids[i], cutleryCount);
+            for(int j = 0; j < cutleryCount; j++) {
+                GameObject newCutlery = Instantiate(cutleryObjects[i]);
+                sockets[socketIndex].interactionManager.SelectEnter(
+                    sockets[socketIndex], 
+                    newCutlery.GetComponent<IXRSelectInteractable>()
+                );
+                socketIndex++;
+            }
         }
     }
 
     private void StartLevel() {
         settings = (Level2Settings) SettingsManager.GetLevelSettings(1);
+
+        exitKnob.SetActive(false);
 
         platesLeft = settings.platesNumber;
         completedPlateStacks = 0;
@@ -235,13 +263,10 @@ public class Level2Manager : MonoBehaviour {
         cutleryLeft = settings.cutleryNumber;
         completedCutleryGrids = 0;
 
-        SetupPlateStacks();
         GeneratePlates();
 
-        SetupCupGrids();
         GenerateCups();
 
-        SetupCutleryGrids();
         GenerateCutlery();
 
         progressCanvas.gameObject.SetActive(true);
@@ -265,6 +290,8 @@ public class Level2Manager : MonoBehaviour {
     }
 
     private void EndLevel() {
+        exitKnob.SetActive(true);
+
         progressCanvas.gameObject.SetActive(false);
         winCanvas.gameObject.SetActive(true);
     }

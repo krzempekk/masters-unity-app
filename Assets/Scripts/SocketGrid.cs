@@ -10,6 +10,7 @@ public class SocketGrid: MonoBehaviour {
     public int redCount;
     public int blueCount;
     public int greenCount;
+    public bool disableFirst = false;
     public float redOffset = 0.02f;
     public float blueOffset = 0.02f;
     public float greenOffset = 0.02f;
@@ -36,5 +37,7 @@ public class SocketGrid: MonoBehaviour {
                 }
             }
         }
+
+        firstSocket.socketActive = !disableFirst;
     }
 }

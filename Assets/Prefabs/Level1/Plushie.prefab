@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 2126753737332614672}
   - component: {fileID: 2126753737332614670}
   - component: {fileID: 2366420098890191937}
-  - component: {fileID: 3457309485459161699}
+  - component: {fileID: 5456353474075145389}
   m_Layer: 7
   m_Name: Plushie
   m_TagString: ItemCategory1
@@ -278,7 +278,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.0330186, y: 1.6945577, z: 0.83041465}
   m_Center: {x: 0.0032339205, y: 0.36143333, z: 0.17340349}
---- !u!114 &3457309485459161699
+--- !u!114 &5456353474075145389
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -287,6 +287,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 2127889229639864958}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a55cb2efb84be248b9435c62c95f8f1, type: 3}
+  m_Script: {fileID: 11500000, guid: 1cb83b2010296f54ea7f7513ab587f89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

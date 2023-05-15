@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3431827749260152349}
   - component: {fileID: 3431827749260152348}
   - component: {fileID: 3431827749260152350}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SpoonBig
   m_TagString: SpoonBig
   m_Icon: {fileID: 0}
@@ -260,7 +260,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3431827748634708280}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: AttachTransform
   m_TagString: Untagged
   m_Icon: {fileID: 0}

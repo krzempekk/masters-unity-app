@@ -29,17 +29,20 @@ public class MainSettings: BaseSettings {
     public bool distanceGrab;
     public bool smoothMovement;
     public bool teleportation;
+    public bool disableIntroduction;
 
     override public void GetSettingsFromPrefs() {
         distanceGrab = GetBooleanFromPrefs("distanceGrab");
         smoothMovement = GetBooleanFromPrefs("smoothMovement", true);
         teleportation = GetBooleanFromPrefs("teleportation");
+        disableIntroduction = GetBooleanFromPrefs("disableIntroduction");
     }
 
     override public void SetSettingsToPrefs() {
         SetBooleanToPrefs("distanceGrab", distanceGrab);
         SetBooleanToPrefs("smoothMovement", smoothMovement);
         SetBooleanToPrefs("teleportation", teleportation);
+        SetBooleanToPrefs("disableIntroduction", disableIntroduction);
     }
 }
 

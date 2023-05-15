@@ -351,7 +351,7 @@ GameObject:
   - component: {fileID: 501754912258955135}
   - component: {fileID: 501754912258955134}
   - component: {fileID: 501754912258955132}
-  - component: {fileID: -6460798262512688917}
+  - component: {fileID: 6483717556255985883}
   m_Layer: 7
   m_Name: Car_4
   m_TagString: ItemCategory2
@@ -613,7 +613,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 7f915564e02d7624aaa88d7674e83075, type: 2}
   - {fileID: 2100000, guid: 2a6c8fdceeee488418663a46854ab545, type: 2}
   - {fileID: 2100000, guid: 4add69fc6d74a5946ae4c9a81ed429ef, type: 2}
---- !u!114 &-6460798262512688917
+--- !u!114 &6483717556255985883
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -622,6 +622,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 501754912259093091}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a55cb2efb84be248b9435c62c95f8f1, type: 3}
+  m_Script: {fileID: 11500000, guid: 1cb83b2010296f54ea7f7513ab587f89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

@@ -47,6 +47,8 @@ public class Level1Manager : MonoBehaviour {
     public Tutorial tutorial;
     public Level1Stats stats;
 
+    public GameObject exitKnob;
+
     private List<ItemCategory> activeCategories = new List<ItemCategory>();
     private Level1Settings settings;
     private int completedContainers = 0;
@@ -180,6 +182,8 @@ public class Level1Manager : MonoBehaviour {
         SettingsManager.ApplySettings();
         settings = (Level1Settings) SettingsManager.GetLevelSettings(0);
 
+        exitKnob.SetActive(false);
+
         GenerateObjects();
         ConfigureChests();
 
@@ -196,6 +200,8 @@ public class Level1Manager : MonoBehaviour {
 
     private void EndLevel() {
         stats.EndLevel();
+
+        exitKnob.SetActive(true);
 
         GetComponent<AudioSource>().Play();
 

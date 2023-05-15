@@ -30,8 +30,8 @@ public class DishGrid : MonoBehaviour {
     }
 
 
-    public void Reset() {
-        targetCount = -1;
+    public void Reset(int _targetCount) {
+        targetCount = _targetCount;
         currentCount = 0;
         OnCompleted.RemoveAllListeners();
         OnCompletedExit.RemoveAllListeners();

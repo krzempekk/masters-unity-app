@@ -8,6 +8,7 @@ public class SystemCanvasController: MonoBehaviour {
     public Toggle distanceGrabToggle;
     public Toggle smoothMovementToggle;
     public Toggle teleportationToggle;
+    public Toggle skipIntroductionToggle;
     
     private MainSettings mainSettings;
 
@@ -31,5 +32,11 @@ public class SystemCanvasController: MonoBehaviour {
             SettingsManager.SaveAndApplySettings();
         });
         teleportationToggle.isOn = mainSettings.teleportation;
+
+        skipIntroductionToggle.onValueChanged.AddListener((skipIntroduction) => {
+            mainSettings.disableIntroduction = skipIntroduction;
+            SettingsManager.SaveAndApplySettings();
+        });
+        skipIntroductionToggle.isOn = mainSettings.disableIntroduction;
     }
 }

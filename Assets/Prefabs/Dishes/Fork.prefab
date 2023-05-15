@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2952958425937722931}
   - component: {fileID: 2952958425937722932}
   - component: {fileID: 2952958425937722930}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Fork
   m_TagString: Fork
   m_Icon: {fileID: 0}
@@ -260,7 +260,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2952958425750782970}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: AttachTransform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
