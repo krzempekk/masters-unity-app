@@ -20,6 +20,7 @@ TagManager:
   - BlueCup
   - RightHand
   - LeftHand
+  - Origin
   layers:
   - Default
   - TransparentFX

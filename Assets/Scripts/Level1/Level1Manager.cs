@@ -10,6 +10,8 @@ public class Level1Settings : BaseSettings {
     public bool isChestLocked;
     public bool extraItems;
     public bool disableTutorial;
+    public int greenChestItem;
+    public int purpleChestItem;
 
     public Level1Settings(string _preset): base(_preset) {
     }
@@ -19,6 +21,8 @@ public class Level1Settings : BaseSettings {
         isChestLocked = GetBooleanFromPrefs("l1:isChestLocked");
         extraItems = GetBooleanFromPrefs("l1:extraItems");
         disableTutorial = GetBooleanFromPrefs("l1:disableTutorial");
+        greenChestItem = PlayerPrefs.GetInt($"{preset}:l1:greenChestItem", -1);
+        purpleChestItem = PlayerPrefs.GetInt($"{preset}:l1:purpleChestItem", -1);
     }
 
     override public void SetSettingsToPrefs() {
@@ -26,6 +30,8 @@ public class Level1Settings : BaseSettings {
         SetBooleanToPrefs("l1:isChestLocked", isChestLocked);
         SetBooleanToPrefs("l1:extraItems", extraItems);
         SetBooleanToPrefs("l1:disableTutorial", disableTutorial);
+        PlayerPrefs.SetInt($"{preset}:l1:greenChestItem", greenChestItem);
+        PlayerPrefs.SetInt($"{preset}:l1:purpleChestItem", purpleChestItem);
     }
 }
 
@@ -80,11 +86,13 @@ public class Level1Manager : MonoBehaviour {
         }
 
         int itemsLeft = settings.cubeNumber;
+        int[] chestItems = { settings.greenChestItem, settings.purpleChestItem };
 
         activeCategories.Clear();
 
         for(int i = 0; i < chests.Length; i++) {
-            ItemCategory category = itemCategories[Random.Range(0, itemCategories.Length)];
+            int categoryIndex = chestItems[i] == -1 ? Random.Range(0, itemCategories.Length) : chestItems[i];
+            ItemCategory category = itemCategories[categoryIndex];
             if(!activeCategories.Contains(category)) {
                 int chestsLeft = chests.Length - i;
 
@@ -208,5 +216,9 @@ public class Level1Manager : MonoBehaviour {
         progressCanvas.gameObject.SetActive(false);
         winCanvas.gameObject.SetActive(true);
         winCanvas.ShowResults();
+    }
+
+    public void ResetPosition() {
+        XROrigin.transform.position = initialOriginPos;
     }
 }

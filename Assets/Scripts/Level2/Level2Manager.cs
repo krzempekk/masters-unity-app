@@ -299,4 +299,8 @@ public class Level2Manager : MonoBehaviour {
         winCanvas.gameObject.SetActive(true);
         winCanvas.ShowResults();
     }
+
+    public void ResetPosition() {
+        XROrigin.transform.position = initialOriginPos;
+    }
 }

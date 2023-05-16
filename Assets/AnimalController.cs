@@ -5,11 +5,9 @@ using UnityEngine.XR.Interaction.Toolkit;
 
 public class AnimalController : MonoBehaviour {
     public XRBaseInteractable headpatZone;
-    public XRSocketInteractor bananaSocket;
     private Animator animator;
     private bool isHovering = false;
 
-    // Start is called before the first frame update
     void Start() {
         animator = GetComponent<Animator>();
         ChangeToIdle();
@@ -22,10 +20,6 @@ public class AnimalController : MonoBehaviour {
         headpatZone.hoverExited.AddListener((call) => {
             isHovering = false;
             StartCoroutine(IdleRoutine());
-        });
-
-        bananaSocket.selectEntered.AddListener((call) => {
-            StartCoroutine(EatingRoutine());
         });
     }
 
@@ -43,13 +37,6 @@ public class AnimalController : MonoBehaviour {
         }
     }
 
-    private IEnumerator EatingRoutine() {
-        ChangeToEating();
-        yield return new WaitForSeconds(3);
-        Destroy(bananaSocket.firstInteractableSelected.transform.gameObject);
-        ChangeToHappy();
-    }
-
     private void ChangeToHappy() {
         animator.Play("Fox_Jump_Pivot_InPlace");
     }
@@ -57,9 +44,4 @@ public class AnimalController : MonoBehaviour {
     private void ChangeToIdle() {
         animator.Play("Fox_Idle");
     }
-
-    private void ChangeToEating() {
-        animator.Play("Fox_Falling");
-    }
-
 }

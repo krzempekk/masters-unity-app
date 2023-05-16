@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.XR.Interaction.Toolkit;
+using UnityEngine.SceneManagement;
 
 public class Tutorial : MonoBehaviour {
     public TutorialStep[] tutorialSteps;
@@ -36,6 +37,7 @@ public class Tutorial : MonoBehaviour {
     }
 
     public void PlayTutorial() {
+        StopAllCoroutines();
         StartCoroutine(PlayTutorialRoutine());
     }
 }

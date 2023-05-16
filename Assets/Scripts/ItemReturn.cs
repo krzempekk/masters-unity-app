@@ -6,6 +6,7 @@ public class ItemReturn : MonoBehaviour {
     private Vector3 initialPos;
     private Quaternion initialRot;
     private float returnDuration = 1.5f;
+    private bool isReturning = false;
 
     // Start is called before the first frame update
     void Start() {
@@ -19,7 +20,10 @@ public class ItemReturn : MonoBehaviour {
     }
 
     public void ReturnToInitialPosition() {
-        // gameObject.transform.position = initialPos;
+        if(isReturning) {
+            return;
+        }
+        isReturning = true;
         StartCoroutine(ReturnToInitialPositionRoutine());
     }
 
@@ -39,5 +43,6 @@ public class ItemReturn : MonoBehaviour {
 
         GetComponent<Collider>().enabled = true;
         GetComponent<Rigidbody>().isKinematic = false;
+        isReturning = false;
     }
 }
