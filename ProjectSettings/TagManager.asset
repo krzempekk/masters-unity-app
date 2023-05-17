@@ -21,6 +21,8 @@ TagManager:
   - RightHand
   - LeftHand
   - Origin
+  - GreenKey
+  - PurpleKey
   layers:
   - Default
   - TransparentFX

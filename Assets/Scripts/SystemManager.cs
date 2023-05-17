@@ -16,8 +16,8 @@ public class SystemManager: MonoBehaviour, SettingsListener {
             Destroy(this); 
         } else { 
             instance = this; 
-            SceneManager.sceneLoaded += (Scene scene, LoadSceneMode mode) => ApplySettings();
-            DontDestroyOnLoad(this);
+            // SceneManager.sceneLoaded += (Scene scene, LoadSceneMode mode) => ApplySettings();
+            // DontDestroyOnLoad(this);
         } 
     }
 

@@ -76,6 +76,8 @@ public class BasicContainer : MonoBehaviour {
                 previousCorrectColliders.Add(other);
                 OnUniqueCorrectPlacement.Invoke();
             }
+
+            CheckCompletedCondition();
         } else {
             // incorrectItemsCount++;
 
@@ -88,8 +90,6 @@ public class BasicContainer : MonoBehaviour {
                 OnUniqueIncorrectPlacement.Invoke();
             }
         } 
-
-        CheckCompletedCondition();
     }
 
     void OnTriggerExit(Collider other) {

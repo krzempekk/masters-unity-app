@@ -25,7 +25,7 @@ public class Dish : MonoBehaviour {
                 grabbed = true;
             }
             if(grabbed && interactor is XRSocketInteractor && interactor != initialSocket) {
-                if(selectCount == 2) {
+                if(selectCount <= 3) {
                     stats.RegisterCorrectPlacement();
                 } else {
                     stats.RegisterIncorrectPlacement();
