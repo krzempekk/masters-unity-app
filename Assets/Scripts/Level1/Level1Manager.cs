@@ -59,6 +59,7 @@ public class Level1Manager : MonoBehaviour {
     private Level1Settings settings;
     private int completedContainers = 0;
     private Vector3 initialOriginPos;
+    private Quaternion initialOriginRot;
 
     private void Awake() { 
         if (instance != null && instance != this) { 
@@ -66,6 +67,7 @@ public class Level1Manager : MonoBehaviour {
         } else { 
             instance = this; 
             initialOriginPos = XROrigin.transform.position;
+            initialOriginRot = XROrigin.transform.rotation;
             StartLevel();
         } 
     }
@@ -219,6 +221,14 @@ public class Level1Manager : MonoBehaviour {
     }
 
     public void ResetPosition() {
+        StartCoroutine(ResetPositionRoutine());
+    }
+
+    private IEnumerator ResetPositionRoutine() {
+        fadeScreen.FadeOutAndIn();
+        yield return new WaitForSeconds(fadeScreen.fadeDuration);
+
         XROrigin.transform.position = initialOriginPos;
+        XROrigin.transform.rotation = initialOriginRot;
     }
 }

@@ -7,6 +7,7 @@ using TMPro;
 public class SystemCanvasController: MonoBehaviour {
     public Toggle distanceGrabToggle;
     public Toggle smoothMovementToggle;
+    public Toggle tunnelingToggle;
     public Toggle teleportationToggle;
     public Toggle skipIntroductionToggle;
     
@@ -26,6 +27,12 @@ public class SystemCanvasController: MonoBehaviour {
             SettingsManager.SaveAndApplySettings();
         });
         smoothMovementToggle.isOn = mainSettings.smoothMovement;
+
+        tunnelingToggle.onValueChanged.AddListener((tunneling) => {
+            mainSettings.tunneling = tunneling;
+            SettingsManager.SaveAndApplySettings();
+        });
+        tunnelingToggle.isOn = mainSettings.tunneling;
 
         teleportationToggle.onValueChanged.AddListener((teleportation) => {
             mainSettings.teleportation = teleportation;

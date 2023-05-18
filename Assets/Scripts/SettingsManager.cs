@@ -28,12 +28,14 @@ public class MainSettings: BaseSettings {
 
     public bool distanceGrab;
     public bool smoothMovement;
+    public bool tunneling;
     public bool teleportation;
     public bool disableIntroduction;
 
     override public void GetSettingsFromPrefs() {
         distanceGrab = GetBooleanFromPrefs("distanceGrab");
         smoothMovement = GetBooleanFromPrefs("smoothMovement", true);
+        tunneling = GetBooleanFromPrefs("tunneling");
         teleportation = GetBooleanFromPrefs("teleportation");
         disableIntroduction = GetBooleanFromPrefs("disableIntroduction");
     }
@@ -41,6 +43,7 @@ public class MainSettings: BaseSettings {
     override public void SetSettingsToPrefs() {
         SetBooleanToPrefs("distanceGrab", distanceGrab);
         SetBooleanToPrefs("smoothMovement", smoothMovement);
+        SetBooleanToPrefs("tunneling", tunneling);
         SetBooleanToPrefs("teleportation", teleportation);
         SetBooleanToPrefs("disableIntroduction", disableIntroduction);
     }

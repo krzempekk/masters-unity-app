@@ -10,7 +10,9 @@ public class Level0Manager : MonoBehaviour {
     private MainSettings settings;
     public Tutorial tutorial;
     public GameObject XROrigin;
+    public FadeScreen fadeScreen;
     private Vector3 initialOriginPos;
+    private Quaternion initialOriginRot;
 
     private void Awake() { 
         if (instance != null && instance != this) { 
@@ -18,6 +20,7 @@ public class Level0Manager : MonoBehaviour {
         } else { 
             instance = this; 
             initialOriginPos = XROrigin.transform.position;
+            initialOriginRot = XROrigin.transform.rotation;
         } 
     }
 
@@ -32,6 +35,15 @@ public class Level0Manager : MonoBehaviour {
     }
 
     public void ResetPosition() {
-        XROrigin.transform.position = initialOriginPos;
+        StartCoroutine(ResetPositionRoutine());
     }
+
+    private IEnumerator ResetPositionRoutine() {
+        fadeScreen.FadeOutAndIn();
+        yield return new WaitForSeconds(fadeScreen.fadeDuration);
+
+        XROrigin.transform.position = initialOriginPos;
+        XROrigin.transform.rotation = initialOriginRot;
+    }
+
 }

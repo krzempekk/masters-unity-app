@@ -68,6 +68,7 @@ public class Level2Manager : MonoBehaviour {
 
     private Level2Settings settings;
     private Vector3 initialOriginPos;
+    private Quaternion initialOriginRot;
 
     public GameObject exitKnob;
     public LevelStats stats;
@@ -78,6 +79,7 @@ public class Level2Manager : MonoBehaviour {
         } else { 
             instance = this; 
             initialOriginPos = XROrigin.transform.position;
+            initialOriginRot = XROrigin.transform.rotation;
         } 
     }
 
@@ -301,6 +303,14 @@ public class Level2Manager : MonoBehaviour {
     }
 
     public void ResetPosition() {
+        StartCoroutine(ResetPositionRoutine());
+    }
+
+    private IEnumerator ResetPositionRoutine() {
+        fadeScreen.FadeOutAndIn();
+        yield return new WaitForSeconds(fadeScreen.fadeDuration);
+
         XROrigin.transform.position = initialOriginPos;
+        XROrigin.transform.rotation = initialOriginRot;
     }
 }

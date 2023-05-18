@@ -36,6 +36,11 @@ public class SystemManager: MonoBehaviour, SettingsListener {
         }
 
         GameObject
+            .FindGameObjectWithTag("XROrigin")
+            .GetComponentInChildren<TunnelingVignetteController>(true)
+            .gameObject.SetActive(settings.tunneling);
+
+        GameObject
             .FindGameObjectWithTag("LeftHand")
             .GetComponent<ActionBasedControllerManager>()
             .SetSmoothMovementEnaled(settings.smoothMovement);
