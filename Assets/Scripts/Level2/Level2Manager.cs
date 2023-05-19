@@ -140,11 +140,13 @@ public class Level2Manager : MonoBehaviour {
             for(int j = 0; j < plateCount; j++) {
                 DishPlate newPlate = Instantiate(plate);
                 newPlate.InitializePlate(plateMeshes[i], plateTags[i]);
+                socketIndex = Random.Range(0, sockets.Count);
                 sockets[socketIndex].interactionManager.SelectEnter(
                     sockets[socketIndex], 
                     newPlate.GetComponent<IXRSelectInteractable>()
                 );
-                socketIndex++;
+                sockets.RemoveAt(socketIndex);
+                // socketIndex++;
             }
         }
     }
@@ -192,11 +194,13 @@ public class Level2Manager : MonoBehaviour {
             for(int j = 0; j < cupCount; j++) {
                 DishCup newCup = Instantiate(cup);
                 newCup.InitializeCup(cupMeshes[i], cupTags[i]);
+                socketIndex = Random.Range(0, sockets.Count);
                 sockets[socketIndex].interactionManager.SelectEnter(
                     sockets[socketIndex], 
                     newCup.GetComponent<IXRSelectInteractable>()
                 );
-                socketIndex++;
+                sockets.RemoveAt(socketIndex);
+                // socketIndex++;
             }
         }
     }
@@ -244,11 +248,13 @@ public class Level2Manager : MonoBehaviour {
             SetupCutleryGrid(cutleryGrids[i], cutleryCount);
             for(int j = 0; j < cutleryCount; j++) {
                 GameObject newCutlery = Instantiate(cutleryObjects[i]);
+                socketIndex = Random.Range(0, sockets.Count);
                 sockets[socketIndex].interactionManager.SelectEnter(
                     sockets[socketIndex], 
                     newCutlery.GetComponent<IXRSelectInteractable>()
                 );
-                socketIndex++;
+                sockets.RemoveAt(socketIndex);
+                // socketIndex++;
             }
         }
     }
@@ -296,6 +302,8 @@ public class Level2Manager : MonoBehaviour {
     private void EndLevel() {
         stats.EndLevel();
         exitKnob.SetActive(true);
+
+        GetComponent<AudioSource>().Play();
 
         progressCanvas.gameObject.SetActive(false);
         winCanvas.gameObject.SetActive(true);

@@ -6,7 +6,7 @@ using UnityEngine.XR.Interaction.Toolkit;
 public class AnimalController : MonoBehaviour {
     private Animator animator;
     private XRSimpleInteractable interactable;
-    private bool isHovering = false;
+    private bool routineTriggered = false;
 
     void Start() {
         animator = GetComponent<Animator>();
@@ -15,8 +15,10 @@ public class AnimalController : MonoBehaviour {
         ChangeToIdle();
 
         interactable.firstHoverEntered.AddListener((call) => {
-            isHovering = true;
-            StartCoroutine(GazeHoverRoutine());
+            if(!routineTriggered) {
+                routineTriggered = true;
+                StartCoroutine(GazeHoverRoutine());
+            }
         });
 
         // interactable.lastHoverExited.AddListener((call) => {
@@ -27,22 +29,20 @@ public class AnimalController : MonoBehaviour {
 
     private IEnumerator GazeHoverRoutine() {
         yield return new WaitForSeconds(1);
-        if(isHovering) {
-            ChangeToHappy();
-        }
-        yield return new WaitForSeconds(3);
+        ChangeToHappy();
+        yield return new WaitForSeconds(2.5f);
         ChangeToIdle();
+        routineTriggered = false;
     }
 
-    private IEnumerator IdleRoutine() {
-        yield return new WaitForSeconds(3);
-        if(!isHovering) {
-            ChangeToIdle();
-        }
-    }
+    // private IEnumerator IdleRoutine() {
+    //     yield return new WaitForSeconds(3);
+    //     if(!isHovering) {
+    //         ChangeToIdle();
+    //     }
+    // }
 
     private void ChangeToHappy() {
-        // animator.Play("Fox_Jump_Pivot_InPlace");
         animator.Play("Fox_Attack_Tail");
         animator.speed = 0.6f;
     }

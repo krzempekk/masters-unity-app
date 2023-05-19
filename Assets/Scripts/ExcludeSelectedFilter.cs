@@ -7,6 +7,7 @@ public class ExcludeSelectedFilter : MonoBehaviour, IXRHoverFilter {
 
     public bool Process(IXRHoverInteractor interactor, IXRHoverInteractable interactable) {
         XRGrabInteractable grabInteractable = interactable.transform.GetComponent<XRGrabInteractable>();
-        return grabInteractable.firstInteractorSelecting is not XRSocketInteractor;
+        XRSocketInteractor socketInteractor = interactor.transform.GetComponent<XRSocketInteractor>();
+        return grabInteractable.firstInteractorSelecting is not XRSocketInteractor && socketInteractor.interactablesSelected.Count == 0;
     }
 }
